@@ -1,0 +1,98 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #F4F6F8;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Layout */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background-color: #1565C0;
+    color: white;
+    padding: 15px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content */
+main {
+    padding: 40px 0;
+}
+
+main h2 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    color: #222;
+}
+
+main p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.company-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #222;
+}
+
+.company-form input[type="text"],
+.company-form input[type="url"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #B0BEC5;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.company-form input[type="text"]:focus,
+.company-form input[type="url"]:focus {
+    outline: none;
+    border-color: #1976D2;
+    box-shadow: 0 0 4px rgba(21, 118, 210, 0.4);
+}
+
+.company-form input[type="submit"] {
+    padding: 14px 0;
+    width: 200px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1976D2;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.company-form input[type="submit"]:hover {
+    background-color: #12579B;
+}
+
+
+
