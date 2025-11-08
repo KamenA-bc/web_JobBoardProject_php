@@ -1,13 +1,21 @@
 <?php
+include '../base-model.php';
 
-class registerModel
+class registerModel extends BaseModel
 {
-    private PDO $dbConn;
-
+    protected $allowedColumns = ['username', 'first_name', 'last_name', 'email', 'password', 'role_id'];
+    
     public function __construct(PDO $dbConn)
     {
-        $this->dbConn = $dbConn;
+        $this->table = 'users';
+        parent::__construct($dbConn);
     }
+    
+        protected function filterColumns(array $data)
+    {
+        return array_intersect_key($data, array_flip($this->allowedColumns));
+    }
+    
     public function userExists($username, $email) 
     {
         $sql = "SELECT id FROM users 
@@ -78,22 +86,19 @@ class registerModel
 
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        
+                $data = [
+            'username' => $username,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $email,
+            'password' => $hashedPassword,
+            'role_id' => 2
+        ];
 
         try 
         {
-            $sql = "INSERT INTO users (username, first_name, last_name, email, password)
-                    VALUES (:users_username, :users_first_name, :users_last_name, :users_email, :users_password)";
-            
-            $stmt = $this->dbConn->prepare($sql);
-
-            $stmt->bindParam(":users_username", $username);
-            $stmt->bindParam(":users_first_name", $firstName);
-            $stmt->bindParam(":users_last_name", $lastName);
-            $stmt->bindParam(":users_email", $email);
-            $stmt->bindParam(":users_password", $hashedPassword);
-
-            $stmt->execute();
-
+            $this->insertRow($data);
             $successMessage = "Successful registration!";
             include 'register-view.php';
             return true;

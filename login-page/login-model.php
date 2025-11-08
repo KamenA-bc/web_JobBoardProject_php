@@ -1,14 +1,16 @@
 <?php
 
-class loginModel
+class loginModel extends BaseModel
 {
 
-    private PDO $dbConn;
+    protected $allowedColumns = ['username', 'first_name', 'last_name', 'email', 'passowrd'];
 
-    public function __construct(PDO $dbConn)
+    public function __construct($dbConn)
     {
-        $this->dbConn = $dbConn;
+        $this->table = 'users';
+        parent::__construct($dbConn);
     }
+    
     public function checkPasswordMatch($username, $password)
     {
         $sql = "SELECT password 
