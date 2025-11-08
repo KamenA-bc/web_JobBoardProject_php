@@ -1,5 +1,7 @@
 <?php
 
+include '../base-model.php';
+
 class loginModel extends BaseModel
 {
 
@@ -27,26 +29,30 @@ class loginModel extends BaseModel
 
             if($user === false)
             {
-                $errorMessage = "User with this username/email does not exist. Please try again.";
-                include "login-view.php";
-                return false;
+                return [
+                    'success' => false,
+                    'error' => "User with this username/email does not exist. Please try again."
+                ];
             }
 
             $dbPassword = $user['password'];
 
             if (!(password_verify($password, $dbPassword))) 
             {
-                $errorMessage = "Incorrect password. Please try again";
-                include "login-view.php";
-                return false;
+                return [
+                    'success' => false,
+                    'error' => "Incorrect password. Please try again"
+                ];
+
             } 
             return true;
         }
         catch(PDOException $e)
         {
-            $errorMessage = "Database error" . $e ;
-            include "login-view.php";
-            return false;
+            return [
+                'success' => false,
+                'error' => "Database error" . $e 
+            ];
         }
     }
 
@@ -57,26 +63,27 @@ class loginModel extends BaseModel
             return false;
         }
 
-        $sql = "SELECT * FROM users WHERE username = :users_username OR email = :users_username";
-        try
+        $conditions = [
+            'username' => $username,
+            'email' => $username
+        ];
+        
+        if($this->rowExists($conditions))
         {
-            $stmt = $this->dbConn->prepare($sql);
-            $stmt->bindParam(":users_username", $username);
-            $stmt->execute();
-            
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
             session_start();
-            $_SESSION["username"] = $user["username"];
+            $_SESSION["username"] = $username;
             header("Location: ../main-page/main-page.php");
             exit();
-            return true;
+            return [
+            'success' => true,
+            ];
         }
-        catch(PDOException $e)
-        {   
-            $errorMessage = "Database error:" . $e;
-            include "login-view.php";
-            return false;
+        else
+        {
+            return [
+                'success' => false,
+                'error' => "No such username or email. Please go and register."
+            ];
         }
     }
 }

@@ -6,14 +6,25 @@
     
     if(isset($_POST["submit"]))
     {
-        $username = $_POST["username"];
-        $firstName = $_POST["first_name"];
-        $lastName = $_POST["last_name"];
-        $email= $_POST["email"];
-        $password= $_POST["password"];
-        $repeatPassword = $_POST["repeatPassword"];
+        $result = $registerModel->registerUser(
+            $_POST['username'],
+            $_POST['first_name'],
+            $_POST['last_name'],
+            $_POST['email'],
+            $_POST['password'],
+            $_POST['repeatPassword']
+        );
 
-        $registerModel->registerUser($username, $firstName, $lastName, $email, $password, $repeatPassword);
+        if ($result['success']) 
+        {
+            $successMessage = $result['message'];
+            include 'register-view.php';
+        } 
+        else 
+        {
+            $errorMessage = $result['error'];
+            include 'register-view.php';
+        }
     }
 
 

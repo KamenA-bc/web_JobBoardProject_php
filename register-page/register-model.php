@@ -16,30 +16,6 @@ class registerModel extends BaseModel
         return array_intersect_key($data, array_flip($this->allowedColumns));
     }
     
-    public function userExists($username, $email) 
-    {
-        $sql = "SELECT id FROM users 
-                WHERE username = :users_username 
-                OR email = :users_email";
-        try 
-        {
-            $stmt = $this->dbConn->prepare($sql);
-            $stmt->bindParam(':users_username', $username);
-            $stmt->bindParam(':users_email', $email);
-            $stmt->execute();
-
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $user !== false;
-        } 
-        catch (PDOException $e) 
-        {
-            include 'register-view.php';
-            echo "Database error: " . $e->getMessage();
-            return false;
-        }
-    }
-
     public function validateEmail($email)
     {
         if(filter_var($email, FILTER_VALIDATE_EMAIL) === false)
@@ -60,54 +36,69 @@ class registerModel extends BaseModel
 
     public function registerUser($username, $firstName, $lastName, $email, $password, $repeatPassword)
     {
-
         if (!$this->validateEmail($email)) 
         {
-            $errorMessage = "Invalid email address. Please enter a valid email address.";
-            include 'register-view.php';
-            return false;
+            return [
+                'success' => false,
+                'error' => "Invalid email address. Please enter a valid email address."
+            ];
         }
-
 
         if (!$this->passwordMatch($password, $repeatPassword)) 
         {
-            $errorMessage = "Passwords don't match. Please try again.";
-            include 'register-view.php';
-            return false;
+            return [
+                'success' => false,
+                'error' => "Passwords don't match. Please try again."
+            ];
         }
 
-
-        if ($this->userExists($username, $email)) 
+        $conditions = [
+            'username' => $username,
+            'email' => $email
+        ];
+        if ($this->rowExists($conditions)) 
         {
-            $errorMessage = "This username or email already exists.";
-            include 'register-view.php';
-            return false;
+            return [
+                'success' => false,
+                'error' => "This username or email already exists."
+            ];
         }
-
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        
-                $data = [
+
+        $data = [
             'username' => $username,
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
             'password' => $hashedPassword,
-            'role_id' => 2
+            'role_id' => 2 //User role_id
         ];
 
         try 
         {
-            $this->insertRow($data);
-            $successMessage = "Successful registration!";
-            include 'register-view.php';
-            return true;
+            $userId = $this->insertRow($data);
+
+            if ($userId) 
+            {
+                return [
+                    'success' => true,
+                    'user_id' => $userId,
+                    'message' => "Successful registration!"
+                ];
+            }
+
+            return [
+                'success' => false,
+                'error' => "Failed to create account. Please try again."
+            ];
         } 
         catch (PDOException $e) 
         {
-            $errorMessage = "Database error: " . $e->getMessage();
-            include 'register-view.php';
-            return false;
+            return [
+                'success' => false,
+                'error' => "Database error: " . $e->getMessage()
+            ];
         }
     }
 }

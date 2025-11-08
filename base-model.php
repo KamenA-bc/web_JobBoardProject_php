@@ -17,12 +17,18 @@ abstract class BaseModel
         }
         $data = $this->filterColumns($data);
         
-        if (empty($data)) {
+        if (empty($data)) 
+        {
             return false;
         }
         
         $columns = array_keys($data);
-        $placeholders = array_fill(0, count($columns), '?');
+        $placeholders = [];
+        
+        foreach ($columns as $column) 
+        {
+            $placeholders[] = ":$column";
+        }   
         
         $sql = sprintf(
             "INSERT INTO %s (%s) VALUES (%s)",
@@ -33,17 +39,58 @@ abstract class BaseModel
         
         $stmt = $this->dbConn->prepare($sql);
         
-        if (!$stmt) {
+        if (!$stmt) 
+        {
             return false;
         }
         
-        $values = array_values($data);
-        $success = $stmt->execute($values);
         
-        if ($success) {
+        foreach ($data as $column => $value) 
+        {
+            $stmt->bindValue(":$column", $value);
+        }
+     
+        if ($stmt->execute()) {
             return $this->dbConn->lastInsertId();
         }
         
         return false;
+    }
+    
+    public function rowExists(array $conditions)
+    {
+        if (empty($conditions)) 
+        {
+            return false;
+        }
+        $whereClauses = [];
+        foreach ($conditions as $column => $value) 
+        {
+            $whereClauses[] = "$column = :$column";
+        }
+        
+        $whereString = implode(' OR ', $whereClauses);
+
+        $sql = sprintf(
+            "SELECT * FROM %s WHERE %s",
+            $this->table,
+            $whereString
+        );
+
+        try {
+            $stmt = $this->dbConn->prepare($sql);
+
+            foreach ($conditions as $column => $value) 
+            {
+                $stmt->bindValue(":$column", $value);
+            }
+
+            $stmt->execute();
+            
+            return $stmt->fetch() !== false;
+            
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }
