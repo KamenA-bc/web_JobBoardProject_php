@@ -3,20 +3,13 @@ include '../base-model.php';
 
 class registerModel extends BaseModel
 {
-    protected $allowedColumns = ['username', 'first_name', 'last_name', 'email', 'password', 'role_id'];
-    
     public function __construct(PDO $dbConn)
     {
         $this->table = 'users';
         parent::__construct($dbConn);
     }
-    
-        protected function filterColumns(array $data)
-    {
-        return array_intersect_key($data, array_flip($this->allowedColumns));
-    }
-    
-    public function validateEmail($email)
+       
+    private function validateEmail($email)
     {
         if(filter_var($email, FILTER_VALIDATE_EMAIL) === false)
         {
@@ -25,9 +18,9 @@ class registerModel extends BaseModel
         return true;
     }
 
-    public function passwordMatch($password, $repeatPassword)
+    private function passwordMatch($password, $repeatPassword)
     {
-        if(!($password == $repeatPassword))
+        if(!($password === $repeatPassword))
         {
             return false;
         }
@@ -77,17 +70,7 @@ class registerModel extends BaseModel
 
         try 
         {
-            $userId = $this->insertRow($data);
-
-            if ($userId) 
-            {
-                return [
-                    'success' => true,
-                    'user_id' => $userId,
-                    'message' => "Successful registration!"
-                ];
-            }
-
+            $this->insertRow($data);
             return [
                 'success' => false,
                 'error' => "Failed to create account. Please try again."

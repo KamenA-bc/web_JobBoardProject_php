@@ -7,18 +7,13 @@
     if(isset($_POST["submit"]))
     {
         $result = $logingModel->loginUser(
-        $username = $_POST["username"],
-        $password= $_POST["password"]
+        $_POST["username"],
+        $_POST["password"]
         );
 
-        if ($result['success']) 
-        {
-            $successMessage = $result['message'];
-            include 'login-view.php';
-        } 
-        else 
+        if (!$result['success']) 
         {
             $errorMessage = $result['error'];
             include 'login-view.php';
-        }
+        } 
     }

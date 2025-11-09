@@ -1,14 +1,14 @@
 <?php
+include '../base-model.php';
 
-class companyRegisterModel
+class companyRegisterModel extends BaseModel
 {
-    private PDO $dbConn;
-    
     public function __construct(PDO $dbConn) 
     {
-        $this->dbConn = $dbConn;
+        $this->table = 'company';
+        parent::__construct($dbConn);
     }
-    
+
     public function validateURL($companyURL)
     {
         if(filter_var($companyURL, FILTER_VALIDATE_URL))
@@ -21,66 +21,49 @@ class companyRegisterModel
         }
     }
     
-    public function companyExists($companyName) 
-    {
-        $sql = "SELECT id FROM company 
-                WHERE name = :company_name";
-        try 
-        {
-            $stmt = $this->dbConn->prepare($sql);
-            $stmt->bindParam(':company_name', $companyName);
-            $stmt->execute();
-
-            $comapny = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $comapny !== false;
-        } 
-        catch (PDOException $e) 
-        {
-            include 'comapny-register-view.php';
-            echo "Database error: " . $e->getMessage();
-            return false;
-        }
-    }
-    
     public function registerCompany($companyName, $companyURL)
     {
         
         if(!$this->validateURL($companyURL))
         {
-            $errorMessage = "Invalid URL. Please enter a valid URL for your company.";
-            include 'company-register-view.php';
-            return false;
+                return [
+                    'success' => false,
+                    'error' => "Invalid URL."
+                ];
         }
         
-        if($this->companyExists($companyName))
+        $conditions = [
+            'name' => $companyName
+        ];
+        
+        if($this->rowExists($conditions))
         {
-            $errorMessage = "This company has already been registered.";
-            include 'company-register-view.php';
-            return false;
+                return [
+                    'success' => false,
+                    'error' => "This company already exists."
+                ];
         }
         
-        try
+        $data = [
+            'name' => $companyName,
+            'site_url' => $companyURL,
+        ];
+        
+
+        try 
         {
-            $sql = "INSERT INTO company (name, site_url)
-                    VALUES (:company_name, :company_site_url)";
-            
-            $stmt = $this->dbConn->prepare($sql);
-            
-            $stmt->bindParam(":company_name", $companyName);
-            $stmt->bindParam(":company_site_url", $companyURL);
-            
-            $stmt->execute();
-            
-            $successMessage = "Successful registration!";
-            include 'company-register-view.php';
-            return true;
-        }
-        catch (PDOException $e)
+            $this->insertRow($data);
+            return [
+                'success' => true,
+                'message' => "Comapny successfuly registered"
+            ];
+        } 
+        catch (PDOException $e) 
         {
-            $errorMessage = "Database error: " . $e->getMessage();
-            include 'company-register-view.php';
-            return false;
+            return [
+                'success' => false,
+                'error' => "Database error: " . $e->getMessage()
+            ];
         }
     }
     

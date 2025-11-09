@@ -10,12 +10,12 @@ abstract class BaseModel
         $this->dbConn = $dbConn;
     }
     
-    public function insertRow(array $data)
+
+    protected function insertRow(array $data)
     {
         if (empty($data)) {
             return false;
         }
-        $data = $this->filterColumns($data);
         
         if (empty($data)) 
         {
@@ -57,7 +57,7 @@ abstract class BaseModel
         return false;
     }
     
-    public function rowExists(array $conditions)
+    protected function rowExists(array $conditions)
     {
         if (empty($conditions)) 
         {
@@ -87,7 +87,9 @@ abstract class BaseModel
 
             $stmt->execute();
             
-            return $stmt->fetch() !== false;
+             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+             
+             return $row;
             
         } catch (PDOException $e) {
             return false;

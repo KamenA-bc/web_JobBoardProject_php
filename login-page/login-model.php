@@ -5,45 +5,38 @@ include '../base-model.php';
 class loginModel extends BaseModel
 {
 
-    protected $allowedColumns = ['username', 'first_name', 'last_name', 'email', 'passowrd'];
 
-    public function __construct($dbConn)
+    public function __construct(PDO $dbConn)
     {
         $this->table = 'users';
         parent::__construct($dbConn);
     }
     
+    
     public function checkPasswordMatch($username, $password)
     {
         $sql = "SELECT password 
                 FROM users 
-                WHERE username = :users_username 
-                OR email = :users_username";
+                WHERE username = :username 
+                OR email = :username";
         try
         {
             $stmt = $this->dbConn->prepare($sql);
-            $stmt->bindParam(":users_username", $username);
+            $stmt->bindParam(":username", $username);
             $stmt->execute();
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($user === false)
             {
-                return [
-                    'success' => false,
-                    'error' => "User with this username/email does not exist. Please try again."
-                ];
+                return false;
             }
 
             $dbPassword = $user['password'];
 
             if (!(password_verify($password, $dbPassword))) 
             {
-                return [
-                    'success' => false,
-                    'error' => "Incorrect password. Please try again"
-                ];
-
+                return false;
             } 
             return true;
         }
@@ -51,8 +44,9 @@ class loginModel extends BaseModel
         {
             return [
                 'success' => false,
-                'error' => "Database error" . $e 
+                'error' => "Database error:" . $e
             ];
+            return false;
         }
     }
 
@@ -60,7 +54,10 @@ class loginModel extends BaseModel
     {
         if(!$this->checkPasswordMatch($username, $password))
         {
-            return false;
+            return [
+                'success' => false,
+                'error' => "Invalid username or password."
+            ];
         }
 
         $conditions = [
@@ -68,10 +65,11 @@ class loginModel extends BaseModel
             'email' => $username
         ];
         
-        if($this->rowExists($conditions))
+        if($user = $this->rowExists($conditions))
         {
             session_start();
-            $_SESSION["username"] = $username;
+            $_SESSION["username"] = $user['username'];
+            $_SESSION['id'] = $user['id'];
             header("Location: ../main-page/main-page.php");
             exit();
             return [
