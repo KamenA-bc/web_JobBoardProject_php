@@ -11,24 +11,18 @@ class registerModel extends BaseModel
        
     private function validateEmail($email)
     {
-        if(filter_var($email, FILTER_VALIDATE_EMAIL) === false)
-        {
-            return false;
-        }
-        return true;
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     private function passwordMatch($password, $repeatPassword)
     {
-        if(!($password === $repeatPassword))
-        {
-            return false;
-        }
-        return true;
+        return $password === $repeatPassword;
     }
+
 
     public function registerUser($username, $firstName, $lastName, $email, $password, $repeatPassword)
     {
+
         if (!$this->validateEmail($email)) 
         {
             return [
@@ -36,6 +30,7 @@ class registerModel extends BaseModel
                 'error' => "Invalid email address. Please enter a valid email address."
             ];
         }
+
 
         if (!$this->passwordMatch($password, $repeatPassword)) 
         {
@@ -49,6 +44,7 @@ class registerModel extends BaseModel
             'username' => $username,
             'email' => $email
         ];
+        
         if ($this->rowExists($conditions)) 
         {
             return [
@@ -65,22 +61,35 @@ class registerModel extends BaseModel
             'last_name' => $lastName,
             'email' => $email,
             'password' => $hashedPassword,
-            'role_id' => 2 //User role_id
+            'role_id' => 2 // User role_id
         ];
 
         try 
         {
-            $this->insertRow($data);
-            return [
-                'success' => false,
-                'error' => "Failed to create account. Please try again."
-            ];
+            $userId = $this->insertRow($data);
+            
+            if($userId)
+            {
+                return [
+                    'success' => true,
+                    'user_id' => $userId,
+                    'message' => "Account created successfully!"
+                ];
+            }
+            else
+            {
+                return [
+                    'success' => false,
+                    'error' => "Failed to create account. Please try again."
+                ];
+            }
         } 
         catch (PDOException $e) 
         {
+            error_log("Registration error: " . $e->getMessage());
             return [
                 'success' => false,
-                'error' => "Database error: " . $e->getMessage()
+                'error' => "Failed to create account. Please try again."
             ];
         }
     }

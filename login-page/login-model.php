@@ -4,8 +4,6 @@ include '../base-model.php';
 
 class loginModel extends BaseModel
 {
-
-
     public function __construct(PDO $dbConn)
     {
         $this->table = 'users';
@@ -13,7 +11,7 @@ class loginModel extends BaseModel
     }
     
     
-    public function checkPasswordMatch($username, $password)
+    private function checkPasswordMatch($username, $password)
     {
         $sql = "SELECT password 
                 FROM users 
@@ -34,18 +32,16 @@ class loginModel extends BaseModel
 
             $dbPassword = $user['password'];
 
-            if (!(password_verify($password, $dbPassword))) 
+            if (!password_verify($password, $dbPassword)) 
             {
                 return false;
             } 
+            
             return true;
         }
         catch(PDOException $e)
         {
-            return [
-                'success' => false,
-                'error' => "Database error:" . $e
-            ];
+            error_log("Database error in checkPasswordMatch: " . $e->getMessage());
             return false;
         }
     }
@@ -67,20 +63,16 @@ class loginModel extends BaseModel
         
         if($user = $this->rowExists($conditions))
         {
-            session_start();
-            $_SESSION["username"] = $user['username'];
-            $_SESSION['id'] = $user['id'];
-            header("Location: ../main-page/main-page.php");
-            exit();
             return [
-            'success' => true,
+                'success' => true,
+                'user' => $user
             ];
         }
         else
         {
             return [
                 'success' => false,
-                'error' => "No such username or email. Please go and register."
+                'error' => "Invalid username or password."
             ];
         }
     }

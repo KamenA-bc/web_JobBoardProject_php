@@ -34,10 +34,6 @@
                 <?php if (isset($errorMessage)): ?>
                 <p style="color:red;"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php endif; ?>
-
-                <?php if (isset($successMessage)): ?>
-                <p style="color:green;"><?php echo htmlspecialchars($successMessage); ?></p>
-                <?php endif; ?>
         </div>
         <div class="right-side">
             <img src="../images/business_lady.png" alt="Job Board Image">

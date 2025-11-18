@@ -99,13 +99,13 @@ abstract class BaseModel
     protected function deleteRow($rowID)
     {
         $sql = sprintf(
-                "DELETE FROM %s WHERE %s",
+                "DELETE FROM %s WHERE id = :id",
                 $this->table,
-                $rowID
         );
         try
         {
             $stmt = $this->dbConn->prepare($sql);
+            $stmt->bindParam(':id', $rowID, PDO::PARAM_INT);
             $stmt->execute();
             
             return $stmt->rowCount() > 0;
