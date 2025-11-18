@@ -55,7 +55,7 @@ class companyRegisterModel extends BaseModel
             $this->insertRow($data);
             return [
                 'success' => true,
-                'message' => "Comapny successfuly registered"
+                'message' => "Company successfuly registered"
             ];
         } 
         catch (PDOException $e) 

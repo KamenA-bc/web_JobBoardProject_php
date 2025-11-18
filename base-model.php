@@ -13,10 +13,6 @@ abstract class BaseModel
 
     protected function insertRow(array $data)
     {
-        if (empty($data)) {
-            return false;
-        }
-        
         if (empty($data)) 
         {
             return false;
@@ -77,7 +73,8 @@ abstract class BaseModel
             $whereString
         );
 
-        try {
+        try 
+        {
             $stmt = $this->dbConn->prepare($sql);
 
             foreach ($conditions as $column => $value) 
@@ -91,7 +88,31 @@ abstract class BaseModel
              
              return $row;
             
-        } catch (PDOException $e) {
+        } 
+        catch (PDOException $e) 
+        {
+            error_log("Error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    protected function deleteRow($rowID)
+    {
+        $sql = sprintf(
+                "DELETE FROM %s WHERE %s",
+                $this->table,
+                $rowID
+        );
+        try
+        {
+            $stmt = $this->dbConn->prepare($sql);
+            $stmt->execute();
+            
+            return $stmt->rowCount() > 0;
+        }
+        catch (PDOException $e)
+        {
+            error_log("Database error in deleteRow: " . $e->getMessage());
             return false;
         }
     }
