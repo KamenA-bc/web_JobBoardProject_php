@@ -1,6 +1,4 @@
 <?php
-session_start(); // Start session at the top
-
 include "../config.php";
 include "company-model.php";
 

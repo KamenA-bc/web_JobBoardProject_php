@@ -1,31 +1,29 @@
 <?php
-session_start(); // Start session at the top
 include "../config.php";
 include "company-model.php";
 
-class companyEditController
+class CompanyEditController
 {
-        private $companyRegisterModel;
-    private $errorMessage;
-    private $successMessage;
+    private $companyModel;
     
     public function __construct($dbConn) 
     {
-        $this->companyRegisterModel = new companyModel($dbConn);
+        $this->companyModel = new CompanyModel($dbConn);
     }
     
-    public function showCompanies()
+    public function handleRequest()
     {
-        $companies = $this->companyRegisterModel->selectAll();
+        $this->loadCompanies();
     }
-    
-    private function loadView() 
+
+    public function loadCompanies()
     {
-        $errorMessage = $this->errorMessage;
-        $successMessage = $this->successMessage;
-        include 'company-register-view.php';
+        $companies = $this->companyModel->selectAll();
+
+        include 'company-edit-view.php';
     }
 }
-$controller = new companyEditController($dbConn);
+
+$controller = new CompanyEditController($dbConn);
 $controller->handleRequest();
 

@@ -5,8 +5,8 @@ class CompanyModel extends BaseModel
 {
     public function __construct(PDO $dbConn) 
     {
-        $this->table = 'company';
         parent::__construct($dbConn);
+        $this->table = 'company';
     }
 
     private function validateURL($companyURL)

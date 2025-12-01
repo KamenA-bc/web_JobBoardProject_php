@@ -117,7 +117,7 @@ abstract class BaseModel
         }
     }
     
-    protected function selectAll() 
+    public function selectAll() 
     {
         $sql = "SELECT * FROM {$this->table}";
         try 
