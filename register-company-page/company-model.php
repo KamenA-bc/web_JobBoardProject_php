@@ -1,7 +1,7 @@
 <?php
 include '../base-model.php';
 
-class companyRegisterModel extends BaseModel
+class CompanyModel extends BaseModel
 {
     public function __construct(PDO $dbConn) 
     {
@@ -20,7 +20,7 @@ class companyRegisterModel extends BaseModel
         {
             return [
                 'success' => false,
-                'error' => "Invalid URL. Please enter a valid website URL (e.g., https://example.com)."
+                'error' => "Invalid URL. Please enter a valid website URL"
             ];
         }
         

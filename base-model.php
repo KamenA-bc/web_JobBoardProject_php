@@ -116,4 +116,23 @@ abstract class BaseModel
             return false;
         }
     }
+    
+    protected function selectAll() 
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        try 
+        {
+            $stmt = $this->dbConn->prepare($sql);
+            $stmt->execute();
+            
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+             
+            return $rows;
+        } 
+        catch (PDOException $e) 
+        {
+            error_log("Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }

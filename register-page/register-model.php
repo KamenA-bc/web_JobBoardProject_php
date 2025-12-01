@@ -1,7 +1,10 @@
 <?php
 include '../base-model.php';
 
-class registerModel extends BaseModel
+define('ROLE_ADMIN', 1);
+define('ROLE_USER', 2);
+
+class RegisterModel extends BaseModel
 {
     public function __construct(PDO $dbConn)
     {
@@ -61,7 +64,7 @@ class registerModel extends BaseModel
             'last_name' => $lastName,
             'email' => $email,
             'password' => $hashedPassword,
-            'role_id' => 2 // User role_id
+            'role_id' => ROLE_USER // User role_id
         ];
 
         try 
@@ -73,6 +76,7 @@ class registerModel extends BaseModel
                 return [
                     'success' => true,
                     'user_id' => $userId,
+                    'role_id' => ROLE_USER,
                     'message' => "Account created successfully!"
                 ];
             }

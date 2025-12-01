@@ -12,7 +12,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <?php
         session_start();
         echo "Hi ".$_SESSION['username'] .  "<br>";
-        echo "With id ".$_SESSION['id'];
+        echo "With id ".$_SESSION['id']. "<br>";
+        echo "ROLE:".$_SESSION['role_id'];
         ?>
     </body>
 </html>
