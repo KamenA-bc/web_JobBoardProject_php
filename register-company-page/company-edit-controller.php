@@ -2,6 +2,7 @@
 include "../config.php";
 include "company-model.php";
 
+
 class CompanyEditController
 {
     private $companyModel;
@@ -13,13 +14,28 @@ class CompanyEditController
     
     public function handleRequest()
     {
-        $this->loadCompanies();
+        $start = 0;
+        if(isset($_GET['page-nr']))
+        {
+            
+            $page = $_GET['page-nr'] - 1;
+            
+            $start = $page * ROWS_PER_PAGE;
+        }
+        
+        $this->loadCompanies($start);
     }
 
-    public function loadCompanies()
+    public function loadCompanies($start)
     {
-        $companies = $this->companyModel->selectAll();
-
+        $companies = $this->companyModel->selectWithLimit($start);
+        
+        $rows = $this->companyModel->selectAll();
+        
+        $number_of_rows = count($rows);
+        
+        $pages = ceil($number_of_rows / ROWS_PER_PAGE);
+        
         include 'company-edit-view.php';
     }
 }
