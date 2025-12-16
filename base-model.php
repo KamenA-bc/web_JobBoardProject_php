@@ -135,4 +135,69 @@ abstract class BaseModel
             return false;
         }
     }
+    
+    public function selectById($id)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE id=:id";
+        try
+        {
+            $stmt = $this->dbConn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $row;
+        }
+        catch (PDOException $e) 
+        {
+            error_log("Error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+public function updateRow(array $data, $id)
+{
+    if (empty($data) || empty($id)) 
+    {
+        return false;
+    }
+    
+    $setClauses = [];
+    $parameters = [];
+    
+    foreach ($data as $column => $value) 
+    {
+        $setClauses[] = "$column = :set_$column";
+
+        $parameters[":set_$column"] = $value;
+    }
+    
+    $parameters[':id'] = $id;
+    $setString = implode(', ', $setClauses);
+
+    $sql = sprintf(
+        "UPDATE %s SET %s WHERE id = :id",
+        $this->table,
+        $setString
+    );
+
+    try 
+    {
+        $stmt = $this->dbConn->prepare($sql);
+
+        foreach ($parameters as $param => $value) 
+        {
+            $stmt->bindValue($param, $value);
+        }
+
+        return $stmt->execute();
+        
+    } 
+    catch (PDOException $e) 
+    {
+        error_log("Error: " . $e->getMessage());
+        return false;
+    }
+}
 }

@@ -1,7 +1,7 @@
     <?php
-    include '../base-model.php';
+    include '../../base-model.php';
     define('START', 0);
-    define('ROWS_PER_PAGE', 5);
+    define('ROWS_PER_PAGE', 10);
     class CompanyModel extends BaseModel
     {
         public function __construct(PDO $dbConn) 

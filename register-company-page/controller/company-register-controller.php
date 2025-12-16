@@ -1,7 +1,8 @@
 <?php
-include "../config.php";
-include "company-model.php";
-
+session_start();
+include "../../config.php";
+include "../model/company-model.php";
+DEFINE('COMPANY_REGISTER_PATH','../view/company-register-view.php');
 
 class CompanyRegisterController
 {
@@ -10,18 +11,29 @@ class CompanyRegisterController
     public function __construct($dbConn) 
     {
         $this->companyModel = new CompanyModel($dbConn);
+        
+        if (empty($_SESSION['csrf_token'])) 
+        {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
     }
     public function handle_register()
     {
         if(isset($_POST["submit"]))
         {
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
+        {
+            $errorMessage = "Invalid CSRF! Please reload page.";
+            header('../view/company-register-view.php');
+            exit();
+        }
             $companyName = $_POST["companyName"];
             $companyURL = $_POST["companyURL"];
 
             if(empty($companyName) || empty($companyURL))
             {
                 $errorMessage = "Please fill in all fields.";
-                include 'company-register-view.php';
+                include COMPANY_REGISTER_PATH;
                 exit();
             }
 
@@ -33,17 +45,17 @@ class CompanyRegisterController
             if ($result['success']) 
             {
                 $successMessage = $result['message'];
-                include 'company-register-view.php';
+                include COMPANY_REGISTER_PATH;
             } 
             else 
             {
                 $errorMessage = $result['error'];
-                include 'company-register-view.php';
+                include COMPANY_REGISTER_PATH;
             }
         }
         else
         {
-            include 'company-register-view.php';
+            include COMPANY_REGISTER_PATH;
         }
     }
 }

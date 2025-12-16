@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to edit this template
--->
+<?php session_start(); ?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -10,10 +7,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
-        session_start();
+        include '../transition-views/menu/menu.php';
         echo "Hi ".$_SESSION['username'] .  "<br>";
         echo "With id ".$_SESSION['id']. "<br>";
         echo "ROLE:".$_SESSION['role_id'];
         ?>
+        <a href="../register-company-page/view/company-edit-view.php">click</a>
     </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-include '../base-model.php';
+include '../../base-model.php';
 
 define('ROLE_ADMIN', 1);
 define('ROLE_USER', 2);

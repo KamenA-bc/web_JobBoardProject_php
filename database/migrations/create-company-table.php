@@ -4,6 +4,7 @@
     {
         $sqlCreateTable =   "CREATE TABLE IF NOT EXISTS company  (
                             id INT NOT NULL AUTO_INCREMENT,
+                            owner_id INT NOT NULL,
                             name VARCHAR(128) NOT NULL UNIQUE,
                             site_url VARCHAR(2048) NOT NULL,
                             PRIMARY KEY (id)

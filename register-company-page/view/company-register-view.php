@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Company Register</title>
-    <link rel="stylesheet" href="company-register-style.css">
+    <link rel="stylesheet" href="../view/CSS/company-register-style.css">
 </head>
 <body>
 
@@ -11,8 +11,9 @@
     <h2>Register Your Company</h2>
     <p>Fill in the details below to register your company on our job platform and start posting new job offers.</p>
 
-    <form method="post" action="company-register-controller.php" class="company-form">
-
+    <form method="post" action="../controller/company-register-controller.php" class="company-form">
+        
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
         <label>Company Name</label>
         <input type="text" name="companyName" placeholder="Enter company name" required>
 

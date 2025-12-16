@@ -1,6 +1,6 @@
 <?php
 
-include '../base-model.php';
+include '../../base-model.php';
 
 class loginModel extends BaseModel
 {

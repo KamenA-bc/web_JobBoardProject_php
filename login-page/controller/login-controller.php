@@ -1,8 +1,8 @@
 <?php
 session_start();
-
-include "../config.php";
-include "login-model.php";
+DEFINE('LOGING_VIEW_PATH','../view/login-view.php');
+include "../../config.php";
+include "../model/login-model.php";
 
 class LoginController
 {
@@ -22,7 +22,7 @@ class LoginController
             if(empty($username) || empty($password))
             {
                 $errorMessage = "Please fill in all fields.";
-                include 'login-view.php';
+                include LOGING_VIEW_PATH;
                 exit();
             }
 
@@ -33,18 +33,18 @@ class LoginController
                 $_SESSION['username'] = $result['user']['username'];
                 $_SESSION['id'] = $result['user']['id'];
                 $_SESSION['role_id'] = $result['user']['role_id'];
-                header("Location: ../main-page/main-page.php");
+                header("Location: ../../main-page/main-page.php");
                 exit();
             } 
             else 
             {
                 $errorMessage = $result['error'];
-                include 'login-view.php';
+                include LOGING_VIEW_PATH;
             }
         }
         else
         {
-            include 'login-view.php';
+            include LOGING_VIEW_PATH;
         }
     }
 }

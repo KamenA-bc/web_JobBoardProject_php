@@ -1,6 +1,6 @@
 <?php
 if (!isset($companies)) {
-    header("Location: company-edit-controller.php");
+    header("Location: ../controller/company-edit-controller.php");
     exit();
 }
 ?>
@@ -9,7 +9,7 @@ if (!isset($companies)) {
 <head>
     <meta charset="UTF-8">
     <title>Company List</title>
-    <link rel="stylesheet" href="company-edit-style.css">
+    <link rel="stylesheet" href="../view/CSS/company-edit-style.css">
 </head>
 <body>
     <h2>All Companies</h2>
@@ -19,12 +19,14 @@ if (!isset($companies)) {
             <tr>
                 <th>Company Name</th>
                 <th>Company URL</th>
+                <th>Edit the company</th>
             </tr>
 
             <?php foreach ($companies as $company): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($company['name']); ?></td>
                     <td><a href="<?php echo htmlspecialchars($company['site_url']); ?>"><?php echo htmlspecialchars($company['site_url']); ?></a></td>
+                    <td><a href="../controller/company-edit-controller.php?action=edit&id=<?php echo htmlspecialchars($company['id']); ?>" class="edit-btn">Edit</a></td>
                 </tr>
             <?php endforeach; ?>
 

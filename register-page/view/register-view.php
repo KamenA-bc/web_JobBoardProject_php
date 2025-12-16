@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Register Page</title>
-    <link rel="stylesheet" href="register-style.css">
+    <link rel="stylesheet" href="../view/register-style.css">
 </head>
 <body>
     <div class="container register-page">
         <div class="left-side">
             <h1>Register</h1>
-            <form method="post" action="register-controller.php">
+            <form method="post" action="../controller/register-controller.php">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Enter username" required>
                 
@@ -30,13 +32,13 @@
 
                 <input type="submit" name="submit" value="Register">
             </form>
-            <a href="../login-page/login-view.php" class="register-link">Log In</a>
+            <a href="../../login-page/controller/login-controller.php" class="register-link">Log In</a>
                 <?php if (isset($errorMessage)): ?>
                 <p style="color:red;"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php endif; ?>
         </div>
         <div class="right-side">
-            <img src="../images/business_lady.png" alt="Job Board Image">
+            <img src="../../images/business_lady.png" alt="Job Board Image">
         </div>
     </div>
 </body>
