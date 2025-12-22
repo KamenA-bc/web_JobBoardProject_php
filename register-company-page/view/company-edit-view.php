@@ -1,3 +1,4 @@
+<?php include '../../transition-views/menu/menu.php'; ?>
 <?php
 if (!isset($companies)) {
     header("Location: ../controller/company-edit-controller.php");
@@ -10,8 +11,10 @@ if (!isset($companies)) {
     <meta charset="UTF-8">
     <title>Company List</title>
     <link rel="stylesheet" href="../view/CSS/company-edit-style.css">
+    <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
 </head>
 <body>
+
     <h2>All Companies</h2>
 
     <?php if (!empty($companies)): ?>

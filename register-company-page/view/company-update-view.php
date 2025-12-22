@@ -1,5 +1,4 @@
 <?php
-// Проверка: Ако няма подадени данни, връщаме потребителя назад
 if (!isset($companyData)) {
     header("Location: ../controller/company-edit-controller.php");
     exit();
@@ -13,7 +12,6 @@ if (!isset($companyData)) {
     <link rel="stylesheet" href="../view/CSS/company-update-style.css">
 </head>
 <body>
-
     <div class="edit-container">
         <h1>Edit Company</h1>
         

@@ -1,5 +1,8 @@
 <?php
-session_start();
+    if (session_status() === PHP_SESSION_NONE) 
+    {
+        session_start();
+    }
 include "../../config.php";
 include "../model/company-model.php";
 
@@ -68,13 +71,13 @@ private function processUpdate()
     
     private function showEditForm($id)
     {
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['user_id'])) {
         header("Location: ../../login-page/view/login-view.php"); 
         exit();
     }
         $companyData = $this->companyModel->selectById($id);
         $ownerId = $companyData['owner_id'];
-        if($_SESSION['id'] == $ownerId || $_SESSION['role_id'] == 1)
+        if($_SESSION['user_id'] == $ownerId || $_SESSION['role_id'] == 1)
         {
             if (!$companyData) 
             {

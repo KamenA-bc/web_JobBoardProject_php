@@ -22,10 +22,15 @@
 
                 <input type="submit" name="submit" value="Log In">
             </form>
-            <a href="../../register-page/controller/register-controller.php" class="register-link">Create an account</a>
-                <?php if (isset($errorMessage)): ?>
-                    <p style="color:red;"><?php echo htmlspecialchars($errorMessage); ?></p>
-                <?php endif; ?>
+
+            <div class="links-container">
+                <a href="../../register-page/controller/register-controller.php" class="register-link">Create an account</a>
+                <a href="../controller/forgotten-password-controller.php" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <?php if (isset($errorMessage)): ?>
+                <p style="color:red; margin-top: 15px;"><?php echo htmlspecialchars($errorMessage); ?></p>
+            <?php endif; ?>
         </div>
     </div>
 </body>

@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) 
+{
+    session_start();
+}
 define('REGISTER_VIEW_PATH', '../view/register-view.php');
 include "../../config.php";
 include "../model/register-model.php";

@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) 
+{
+    session_start();
+}
 DEFINE('LOGING_VIEW_PATH','../view/login-view.php');
 include "../../config.php";
 include "../model/login-model.php";
@@ -31,7 +34,7 @@ class LoginController
             if ($result['success']) 
             {
                 $_SESSION['username'] = $result['user']['username'];
-                $_SESSION['id'] = $result['user']['id'];
+                $_SESSION['user_id'] = $result['user']['id'];
                 $_SESSION['role_id'] = $result['user']['role_id'];
                 header("Location: ../../main-page/main-page.php");
                 exit();

@@ -76,4 +76,45 @@ class loginModel extends BaseModel
             ];
         }
     }
+    
+    public function resetPassword($username, $newPassword)
+    {
+        $sql = "UPDATE {$this->table}
+                SET password = :pass
+                WHERE username = :username
+                OR email = :username";
+        
+        
+        $conditions = [
+            'username' => $username,
+            'email' => $username
+        ];
+        
+        if($user = $this->rowExists($conditions))
+        {
+        try
+        {
+            $stmt = $this->dbConn->prepare($sql);
+            $stmt->bindParam(":pass", $newPassword);
+            $stmt->bindParam(":username", $username);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) 
+            {
+                return ['success' => true, 'message' => "Password updated successfully!"];
+            } else {
+                return ['success' => false, 'error' => "Error when changing pass please try later!"];
+            }
+        }
+        catch(PDOException $e)
+        {
+            error_log("Database error: " . $e->getMessage());
+            return ['success' => false, 'error' => "System error. Please try again later."];
+        }
+        }
+        else
+        {
+            return ['success' => false, 'error' => "Invalid username or email."];
+        } 
+    }
 }

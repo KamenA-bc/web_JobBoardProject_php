@@ -1,5 +1,7 @@
 
         <?php
+
+        
         $host="localhost";
         $dbUser="root";
         $dbPass="";

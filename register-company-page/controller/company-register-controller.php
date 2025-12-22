@@ -1,5 +1,8 @@
 <?php
-session_start();
+    if (session_status() === PHP_SESSION_NONE) 
+    {
+        session_start();
+    }
 include "../../config.php";
 include "../model/company-model.php";
 DEFINE('COMPANY_REGISTER_PATH','../view/company-register-view.php');
@@ -24,7 +27,7 @@ class CompanyRegisterController
         if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
         {
             $errorMessage = "Invalid CSRF! Please reload page.";
-            header('../view/company-register-view.php');
+            include COMPANY_REGISTER_PATH;
             exit();
         }
             $companyName = $_POST["companyName"];
@@ -33,6 +36,13 @@ class CompanyRegisterController
             if(empty($companyName) || empty($companyURL))
             {
                 $errorMessage = "Please fill in all fields.";
+                include COMPANY_REGISTER_PATH;
+                exit();
+            }
+            
+            if(empty($_SESSION["user_id"]))
+            {
+                $errorMessage = "Please login/register to register a company";
                 include COMPANY_REGISTER_PATH;
                 exit();
             }

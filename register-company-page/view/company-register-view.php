@@ -1,9 +1,11 @@
+<?php include '../../transition-views/menu/menu.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Company Register</title>
     <link rel="stylesheet" href="../view/CSS/company-register-style.css">
+    <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
 </head>
 <body>
 

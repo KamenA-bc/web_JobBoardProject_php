@@ -49,6 +49,7 @@
             ];
         }
         $data = [
+            'owner_id' => $_SESSION['user_id'],
             'name' => $companyName,
             'site_url' => $companyURL,
         ];

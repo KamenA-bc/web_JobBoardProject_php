@@ -95,15 +95,37 @@ input[type="submit"]:hover {
     background-color: #0D47A1;
 }
 
-/* --- Register Link --- */
+/* --- Links Container (New) --- */
+.links-container {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between the two links */
+}
+
+/* --- Register Link (Main Action) --- */
 .register-link {
-    margin-top: 15px;
     text-decoration: none;
     color: #FFA000;
     font-weight: bold;
+    font-size: 15px;
     transition: color 0.3s;
 }
 
 .register-link:hover {
     color: #FFB300;
+}
+
+/* --- Forgot Password Link (Subtle) --- */
+.forgot-link {
+    text-decoration: none;
+    color: #78909C; /* Muted blue-grey */
+    font-size: 13px; /* Slightly smaller */
+    transition: color 0.3s;
+}
+
+.forgot-link:hover {
+    color: #0D47A1; /* Dark blue on hover */
+    text-decoration: underline;
 }
