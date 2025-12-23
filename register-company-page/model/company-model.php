@@ -1,7 +1,6 @@
     <?php
-    include '../../base-model.php';
-    define('START', 0);
-    define('ROWS_PER_PAGE', 10);
+    include_once '../../base-model.php';
+
     class CompanyModel extends BaseModel
     {
         public function __construct(PDO $dbConn) 
@@ -15,17 +14,7 @@
             return filter_var($companyURL, FILTER_VALIDATE_URL) !== false;
         }
 
-    public function selectWithLimit($start)
-    {
-        $sql = "SELECT * FROM {$this->table} LIMIT :start, :rows";
-        $stmt = $this->dbConn->prepare($sql);
 
-        $stmt->bindValue(':start', $start, PDO::PARAM_INT);
-        $stmt->bindValue(':rows', ROWS_PER_PAGE, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
     
     public function registerCompany($companyName, $companyURL)
     {
@@ -83,6 +72,15 @@
                 'error' => "Failed to register company. Please try again."
             ];
         }
+    }
+    
+    public function getCompaniesByOwner($ownerId)
+    {
+        $sql = "SELECT * FROM company WHERE owner_id = :owner_id";
+        $stmt = $this->dbConn->prepare($sql);
+        $stmt->bindParam(':owner_id', $ownerId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

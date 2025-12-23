@@ -1,0 +1,120 @@
+/* view/CSS/job-post-style.css */
+
+/* Page Background */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+}
+
+/* Centered Form Container */
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+h2 {
+    text-align: center;
+    color: #1565C0;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.half {
+    flex: 1;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Inputs and Selects */
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: 0.3s;
+}
+
+/* Input Focus State */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #1565C0;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+textarea {
+    resize: vertical; /* Allow user to resize height only */
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #1565C0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #0D47A1;
+}
+
+/* Messages */
+.message {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}

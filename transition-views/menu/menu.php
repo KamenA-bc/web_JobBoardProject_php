@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="dropdown">
             <span class="dropdown-btn">Jobs ▼</span>
             <div class="dropdown-content">
-                <a href="#">Post a Job</a>
+                <a href="/job_board_project/job-page/controller/post_job-controller.php">Post a Job</a>
                 <a href="#">Browse Jobs</a>
             </div>
         </div>

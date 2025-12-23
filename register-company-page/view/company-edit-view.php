@@ -12,13 +12,14 @@ if (!isset($companies)) {
     <title>Company List</title>
     <link rel="stylesheet" href="../view/CSS/company-edit-style.css">
     <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
+    <link rel="stylesheet" href="../../transition-views/pagination/pagination-style.css">
 </head>
 <body>
 
     <h2>All Companies</h2>
 
     <?php if (!empty($companies)): ?>
-        <table border="1" cellspacing="0" cellpadding="5">
+        <table>
             <tr>
                 <th>Company Name</th>
                 <th>Company URL</th>
@@ -34,67 +35,9 @@ if (!isset($companies)) {
             <?php endforeach; ?>
 
         </table>
-    <div class="table-wrapper">
-        <div class="info">
-            <?php
-                if(!isset($_GET['page-nr']))
-                {
-                    $page = 1;
-                }
-                else
-                {
-                    $page = $_GET['page-nr'];
-                }
-            ?>
-            Showing <?php echo htmlspecialchars($page) ?> of <?php echo htmlspecialchars($pages) ?> Pages
-        </div>
 
-        <div class="pagination">
-            <a href="?page-nr=1">First</a>
-            <?php
-                if(isset($_GET['page-nr']) && $_GET['page-nr'] > 1)
-                {
-            ?>
-                <a href="?page-nr=<?php echo htmlspecialchars($_GET['page-nr'] - 1) ?>">Previous</a>
-            <?php
-                } else
-                {
-            ?>
-            <a href="">Previous</a>
-            <?php
-                }
-            ?>
-            <div class="page-nums">
-                <?php
-                    for($counter = 1; $counter <= $pages; $counter++)
-                    {
-                ?>
-                <a href="?page-nr=<?php echo htmlspecialchars($counter)?>"><?php echo htmlspecialchars($counter)?></a>
-                <?php
-                    }
-                ?>
-            </div>
-            <?php
-            if(!isset($_GET['page-nr'])){
-            ?>
-                <a href="?page-nr=2">Next</a>
-            <?php
-            }else{
-                if($_GET['page-nr'] >= $pages){
-            ?>
-                    <a href="">Next</a>
-            <?php
-                }else{
-            ?>
-                    <a href="?page-nr=<?php echo $_GET['page-nr'] + 1 ?>">Next</a>
-            <?php
-                }
-            }
-            ?>
-            <a href="?page-nr= <?php echo htmlspecialchars($pages)?>">Last</a>
-        </div>
-    </div>
-    <?php else: ?>
+        <?php include '../../transition-views/pagination/pagination.php'; ?>
+        <?php else: ?>
 
         <p>No companies found.</p>
 

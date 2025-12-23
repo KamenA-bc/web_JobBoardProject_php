@@ -1,6 +1,7 @@
 <?php
-
-abstract class BaseModel
+    define('START', 0);
+    define('ROWS_PER_PAGE', 5);
+class BaseModel
 {
     protected PDO $dbConn;
     protected $table;
@@ -156,48 +157,59 @@ abstract class BaseModel
         }
     }
     
-public function updateRow(array $data, $id)
-{
-    if (empty($data) || empty($id)) 
+    public function updateRow(array $data, $id)
     {
-        return false;
-    }
-    
-    $setClauses = [];
-    $parameters = [];
-    
-    foreach ($data as $column => $value) 
-    {
-        $setClauses[] = "$column = :set_$column";
-
-        $parameters[":set_$column"] = $value;
-    }
-    
-    $parameters[':id'] = $id;
-    $setString = implode(', ', $setClauses);
-
-    $sql = sprintf(
-        "UPDATE %s SET %s WHERE id = :id",
-        $this->table,
-        $setString
-    );
-
-    try 
-    {
-        $stmt = $this->dbConn->prepare($sql);
-
-        foreach ($parameters as $param => $value) 
+        if (empty($data) || empty($id)) 
         {
-            $stmt->bindValue($param, $value);
+            return false;
         }
 
-        return $stmt->execute();
-        
-    } 
-    catch (PDOException $e) 
-    {
-        error_log("Error: " . $e->getMessage());
-        return false;
+        $setClauses = [];
+        $parameters = [];
+
+        foreach ($data as $column => $value) 
+        {
+            $setClauses[] = "$column = :set_$column";
+
+            $parameters[":set_$column"] = $value;
+        }
+
+        $parameters[':id'] = $id;
+        $setString = implode(', ', $setClauses);
+
+        $sql = sprintf(
+            "UPDATE %s SET %s WHERE id = :id",
+            $this->table,
+            $setString
+        );
+
+        try 
+        {
+            $stmt = $this->dbConn->prepare($sql);
+
+            foreach ($parameters as $param => $value) 
+            {
+                $stmt->bindValue($param, $value);
+            }
+
+            return $stmt->execute();
+
+        } 
+        catch (PDOException $e) 
+        {
+            error_log("Error: " . $e->getMessage());
+            return false;
+        }
     }
-}
+        public function selectWithLimit($start)
+    {
+        $sql = "SELECT * FROM {$this->table} LIMIT :start, :rows";
+        $stmt = $this->dbConn->prepare($sql);
+
+        $stmt->bindValue(':start', $start, PDO::PARAM_INT);
+        $stmt->bindValue(':rows', ROWS_PER_PAGE, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
