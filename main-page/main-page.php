@@ -17,6 +17,6 @@
         echo "With id ".$_SESSION['user_id']. "<br>";
         echo "ROLE:".$_SESSION['role_id'];
         ?>
-        <a href="../register-company-page/view/company-edit-view.php">click</a>
+        <a href="../application-page/controller/my-applications-controller.php">click</a>
     </body>
 </html>

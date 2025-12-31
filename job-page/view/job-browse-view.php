@@ -9,7 +9,8 @@ include '../../transition-views/menu/menu.php';
     <title>Browse Jobs</title>
     <link rel="stylesheet" href="../view/CSS/job-browse-style.css">
     <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
-    <link rel="stylesheet" href="../../transition-views/pagination/pagination-style.css"> </head>
+    <link rel="stylesheet" href="../../transition-views/pagination/pagination-style.css"> 
+</head>
 <body>
 
 <div class="container">
@@ -17,6 +18,12 @@ include '../../transition-views/menu/menu.php';
         <h2>Find Your Next Opportunity</h2>
         <p>Browse the latest openings from top companies</p>
     </div>
+
+    <?php if (isset($_GET['msg'])): ?>
+        <div style="text-align:center; padding: 10px; background: #e8f5e9; color: green; margin-bottom: 15px; border-radius: 4px;">
+            <?php echo htmlspecialchars($_GET['msg']); ?>
+        </div>
+    <?php endif; ?>
 
     <?php if (!empty($jobs)): ?>
         <div class="job-list">
@@ -33,7 +40,10 @@ include '../../transition-views/menu/menu.php';
                     </div>
                     
                     <div class="job-action">
-                        <a href="#" class="apply-btn">Apply Now</a>
+                        <form action="../controller/job-browse-controller.php" method="POST">
+                            <input type="hidden" name="position_id" value="<?php echo $job['id']; ?>">
+                            <button type="submit" name="apply_now" class="apply-btn" style="border:none; cursor:pointer;">Apply Now</button>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
