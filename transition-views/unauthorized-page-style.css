@@ -1,0 +1,62 @@
+ /* --- General Layout --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F5F7FA;
+            font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Card Container --- */
+        .error-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            border-top: 6px solid #D32F2F;
+        }
+
+        /* --- Icon & Title --- */
+        .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            color: #D32F2F;
+            margin: 0 0 15px 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- Button Style --- */
+        .home-btn {
+            display: inline-block;
+            background-color: #1565C0;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(21, 101, 192, 0.2);
+        }
+
+        .home-btn:hover {
+            background-color: #0D47A1;
+            transform: translateY(-2px);
+        }

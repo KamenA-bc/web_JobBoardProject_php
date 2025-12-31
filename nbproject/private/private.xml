@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/config.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-audit_logs-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-user-roles-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-users-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-title-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-seniority-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-positions-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-position-status-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/migrations/create-company-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-company-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-position-status-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-seniority-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-title-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-user-roles-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-users-table.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/main-page/main-page.php</file>
+        </group>
+    </open-files>
+</project-private>
