@@ -1,4 +1,4 @@
-/* Basic Reset */
+/* --- Basic Reset --- */
 * {
     margin: 0;
     padding: 0;
@@ -12,14 +12,14 @@ body {
     line-height: 1.6;
 }
 
-/* Layout */
+/* --- Layout --- */
 .container {
     width: 90%;
     max-width: 900px;
     margin: 0 auto;
 }
 
-/* Header */
+/* --- Header --- */
 header {
     background-color: #1565C0;
     color: white;
@@ -32,12 +32,11 @@ header .container {
     align-items: center;
 }
 
-
 header nav a:hover {
     text-decoration: underline;
 }
 
-/* Main Content */
+/* --- Main Content --- */
 main {
     padding: 40px 0;
 }
@@ -54,6 +53,7 @@ main p {
     color: #555;
 }
 
+/* --- Form Styles --- */
 .company-form label {
     display: block;
     margin-bottom: 8px;
@@ -94,5 +94,60 @@ main p {
     background-color: #12579B;
 }
 
+/* --- New Styles: Company List Table --- */
+.company-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
 
+.company-list th, 
+.company-list td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
 
+.company-list th {
+    background-color: #f1f1f1;
+    font-weight: 600;
+    color: #333;
+}
+
+.company-list tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- New Styles: Delete Button --- */
+.btn-delete {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #b71c1c;
+}
+
+/* --- New Styles: Utility --- */
+.empty-state {
+    margin-top: 20px;
+    color: #777;
+    font-style: italic;
+}
+
+hr.divider {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 40px 0 20px 0;
+}

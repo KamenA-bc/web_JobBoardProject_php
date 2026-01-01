@@ -7,6 +7,7 @@
     <title>My Applications</title>
     <link rel="stylesheet" href="../view/CSS/my-application-style.css">
     <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
+    <link rel="stylesheet" href="../../transition-views/pagination/pagination-style.css"> 
 </head>
 <body>
 
@@ -49,7 +50,9 @@
                 </tbody>
             </table>
         </div>
+             <?php include '../../transition-views/pagination/pagination.php'; ?>
     <?php else: ?>
+    
         <div class="empty-state">
             <h3>You haven't applied to any jobs yet.</h3>
             <a href="../../job-page/controller/job-browse-controller.php" class="cta-btn">Browse Jobs</a>

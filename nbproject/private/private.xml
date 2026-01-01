@@ -19,6 +19,24 @@
             <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-user-roles-table.php</file>
             <file>file:/C:/school/xampp/htdocs/job_board_project/database/seeds/seed-users-table.php</file>
             <file>file:/C:/school/xampp/htdocs/job_board_project/main-page/main-page.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/controller/my-applications-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/model/application-model.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/view/my-applications-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/controller/job-browse-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/view/job-browse-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/model/job-model.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/transition-views/pagination/pagination.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/transition-views/success-page/success-page.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/login-page/controller/login-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-page/controller/register-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/controller/manage-applications-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/view/manage-application-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/view/CSS/manage-application-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/model/company-model.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/controller/company-register-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/company-register-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/CSS/company-register-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/company-edit-view.php</file>
         </group>
     </open-files>
 </project-private>

@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) 
+{
+    session_start();
+}
 
 $host = "localhost";
 $dbUser = "root";
@@ -14,6 +18,12 @@ try {
 
     $sqlUse = "USE $dbName";
     $dbConn->exec($sqlUse);
+
+    if (isset($_SESSION['user_id'])) {
+        $stmt = $dbConn->prepare("SET @audit_user_id = :id");
+        $stmt->execute([':id' => $_SESSION['user_id']]);
+    }
+
 } catch(PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }

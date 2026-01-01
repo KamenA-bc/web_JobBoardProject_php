@@ -33,11 +33,9 @@ class JobBrowseController
         }
     }
 
-    // In controller/job-browse-controller.php
 
     private function processApplication()
     {
-        // 1. Check Login
         if (!isset($_SESSION['user_id'])) {
             header("Location: ../../login-page/view/login-view.php");
             exit();
@@ -57,7 +55,7 @@ class JobBrowseController
 
             if ($result['success']) 
             {
-                header("Location: ../../main-page/main-page.php");
+                header("Location: ../../transition-views/success-page/success-page.php");
                 exit();
             } else {
                 echo htmlspecialchars("error");

@@ -62,7 +62,7 @@ class RegisterController
             if ($result['success']) 
             {
                 $_SESSION["username"] = $username;
-                $_SESSION['id'] = $result['user_id'];
+                $_SESSION['user_id'] = $result['user_id'];
                 $_SESSION['role_id'] = $result['role_id'];
                 header("Location: ../../main-page/main-page.php");
                 exit();
