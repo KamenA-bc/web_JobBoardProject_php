@@ -12,7 +12,7 @@ class JobBrowseController
 {
     private $jobModel;
     private $appModel;
-    const ROWS_PER_PAGE = 10;
+    const ROWS_PER_PAGE = 5;
 
     public function __construct($dbConn)
     {
@@ -64,15 +64,19 @@ class JobBrowseController
         }
     }
 
-    private function listJobs()
+   private function listJobs()
     {
+        $selectedSeniority = isset($_GET['seniority']) && $_GET['seniority'] !== '' ? $_GET['seniority'] : null;
+
         $page = isset($_GET['page-nr']) ? (int)$_GET['page-nr'] : 1;
         $start = ($page - 1) * self::ROWS_PER_PAGE;
 
-        $jobs = $this->jobModel->getActiveJobs($start, self::ROWS_PER_PAGE);
-        $totalRows = $this->jobModel->getActiveJobCount();
-        $pages = ceil($totalRows / self::ROWS_PER_PAGE);
+        $jobs = $this->jobModel->getActiveJobs($start, self::ROWS_PER_PAGE, $selectedSeniority);
+        $totalRows = $this->jobModel->getActiveJobCount($selectedSeniority);
+        
+        $seniorities = $this->jobModel->getAllSeniorities();
 
+        $pages = ceil($totalRows / self::ROWS_PER_PAGE);
 
         include '../view/job-browse-view.php';
         exit();

@@ -19,8 +19,29 @@ include '../../transition-views/menu/menu.php';
         <p>Browse the latest openings from top companies</p>
     </div>
 
+    <div class="filter-section">
+        <strong>Filter by:</strong>
+        <form method="GET" class="filter-form">
+            <select name="seniority" class="filter-select" onchange="this.form.submit()">
+                <option value="">All Seniority Levels</option>
+                <?php foreach ($seniorities as $sen): ?>
+                    <option value="<?php echo $sen['id']; ?>" 
+                        <?php echo (isset($selectedSeniority) && $selectedSeniority == $sen['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($sen['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <noscript><button type="submit" class="btn-filter">Filter</button></noscript>
+            
+            <?php if(isset($selectedSeniority) && $selectedSeniority != ''): ?>
+                <a href="job-browse-controller.php" class="btn-reset">✖ Clear Filter</a>
+            <?php endif; ?>
+        </form>
+    </div>
+
     <?php if (isset($_GET['msg'])): ?>
-        <div style="text-align:center; padding: 10px; background: #e8f5e9; color: green; margin-bottom: 15px; border-radius: 4px;">
+        <div class="alert-success">
             <?php echo htmlspecialchars($_GET['msg']); ?>
         </div>
     <?php endif; ?>
@@ -42,18 +63,21 @@ include '../../transition-views/menu/menu.php';
                     <div class="job-action">
                         <form action="../controller/job-browse-controller.php" method="POST">
                             <input type="hidden" name="position_id" value="<?php echo $job['id']; ?>">
-                            <button type="submit" name="apply_now" class="apply-btn" style="border:none; cursor:pointer;">Apply Now</button>
+                            <button type="submit" name="apply_now" class="apply-btn">Apply Now</button>
                         </form>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
 
-        <?php include '../../transition-views/pagination/pagination.php'; ?>
+        <?php 
+        include '../../transition-views/pagination/pagination.php'; 
+        ?>
 
     <?php else: ?>
         <div class="no-jobs">
-            <p>No active job postings found. Check back later!</p>
+            <p>No jobs found matching your criteria.</p>
+            <a href="job-browse-controller.php" style="color: #1565C0; margin-top:10px; display:inline-block;">View all jobs</a>
         </div>
     <?php endif; ?>
 </div>

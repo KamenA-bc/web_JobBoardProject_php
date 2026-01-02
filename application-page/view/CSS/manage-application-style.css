@@ -1,66 +1,187 @@
-/* Container: Better font stack and spacing */
+/* --- Basic Reset & Typography --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #F0F2F5; /* Softer background */
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- Layout --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Card effect */
+}
+
+/* --- Header Section --- */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #1565C0;
+    margin-bottom: 10px;
+}
+
+p.description {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* --- Table Styling --- */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.app-table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 10px;
+}
+
+.app-table th {
+    background-color: #1976D2;
+    color: white;
+    padding: 18px 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.app-table th:first-child { border-top-left-radius: 8px; }
+.app-table th:last-child { border-top-right-radius: 8px; }
+
+.app-table td {
+    padding: 16px 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #444;
+}
+
+.app-table tr:hover {
+    background-color: #f9fbfd;
+}
+
+.app-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Candidate & Job Info --- */
+.candidate-name {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 1.05rem;
+}
+
+.job-title {
+    font-weight: 600;
+    color: #1976D2;
+}
+
+.company-sub {
+    font-size: 0.85rem;
+    color: #888;
+    display: block;
+    margin-top: 2px;
+}
+
+/* --- Status Badges (Colorful) --- */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Dynamic Status Colors - Ensure these match your DB status names lowercase */
+.status-applied { background-color: #E3F2FD; color: #1976D2; }
+.status-reviewed { background-color: #FFF3E0; color: #F57C00; }
+.status-interview { background-color: #E8EAF6; color: #3F51B5; }
+.status-hired { background-color: #E8F5E9; color: #2E7D32; }
+.status-rejected { background-color: #FFEBEE; color: #C62828; }
+/* Fallback for others */
+.status-badge { background-color: #F5F5F5; color: #616161; }
+
+/* --- Form Elements --- */
 .status-form {
     display: flex;
-    gap: 12px; /* Increased breathing room */
     align-items: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    gap: 10px;
 }
 
-/* Select Input: The biggest change */
-select {
-    appearance: none; /* Removes default browser arrow/bevel */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    padding: 8px 32px 8px 12px; /* Extra right padding for the arrow */
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px; /* Softer corners */
-    cursor: pointer;
-    transition: all 0.2s ease;
-    
-    /* Custom SVG Arrow */
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-}
-
-/* Select Hover & Focus States */
-select:hover {
-    border-color: #b0b0b0;
-}
-
-select:focus {
-    outline: none;
-    border-color: #1565C0;
-    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15); /* Professional focus ring */
-}
-
-/* Button: More tactile and substantial */
-.update-btn {
-    padding: 8px 16px; /* Larger hit area */
-    font-size: 13px;
-    font-weight: 600; /* Makes text pop */
-    color: white;
-    background-color: #1565C0;
-    border: 1px solid transparent; /* Prevents layout shift on border changes */
+.status-form select {
+    padding: 8px 12px;
+    border: 1px solid #cfd8dc;
     border-radius: 6px;
+    background-color: white;
+    color: #333;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle depth */
+    transition: border-color 0.2s;
 }
 
-/* Button Hover & Active States */
+.status-form select:hover,
+.status-form select:focus {
+    border-color: #1976D2;
+    outline: none;
+}
+
+.update-btn {
+    background-color: #1976D2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    font-size: 0.9rem;
+}
+
 .update-btn:hover {
-    background-color: #0D47A1;
-    transform: translateY(-1px); /* Slight lift effect */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    background-color: #115293;
 }
 
 .update-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px);
 }
+
+/* --- Empty State --- */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dde2e6;
+    color: #6c757d;
+}
+
+/* --- Messages --- */
+.msg-box {
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+.msg-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.msg-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }

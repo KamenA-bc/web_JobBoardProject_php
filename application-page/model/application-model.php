@@ -42,16 +42,43 @@ public function applyForJob($userId, $positionId)
     }
 
 
-    public function getApplicationCount($userId)
+    public function getAppliedCompanies($userId)
     {
-        $sql = "SELECT COUNT(*) as total FROM application WHERE user_id = :user_id";
+        $sql = "SELECT DISTINCT c.id, c.name 
+                FROM company c
+                JOIN positions p ON c.id = p.company_id
+                JOIN application a ON p.id = a.position_id
+                WHERE a.user_id = :user_id
+                ORDER BY c.name ASC";
         $stmt = $this->dbConn->prepare($sql);
         $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getApplicationCount($userId, $companyId = null)
+    {
+        $sql = "SELECT COUNT(*) as total 
+                FROM application a
+                INNER JOIN positions p ON a.position_id = p.id
+                WHERE a.user_id = :user_id";
+        
+        if ($companyId) {
+            $sql .= " AND p.company_id = :company_id";
+        }
+
+        $stmt = $this->dbConn->prepare($sql);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        
+        if ($companyId) {
+            $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
     }
 
-    public function getUserApplications($userId, $start, $limit)
+    public function getUserApplications($userId, $start, $limit, $companyId = null)
     {
         $sql = "SELECT 
                     a.id,
@@ -67,9 +94,13 @@ public function applyForJob($userId, $positionId)
                 INNER JOIN title t ON p.title_id = t.id
                 INNER JOIN company c ON p.company_id = c.id
                 INNER JOIN application_status s ON a.status_id = s.id 
-                WHERE a.user_id = :user_id
-                ORDER BY a.applied_on DESC
-                LIMIT :start, :limit";
+                WHERE a.user_id = :user_id";
+        
+        if ($companyId) {
+            $sql .= " AND p.company_id = :company_id";
+        }
+
+        $sql .= " ORDER BY a.applied_on DESC LIMIT :start, :limit";
 
         $stmt = $this->dbConn->prepare($sql);
         
@@ -77,56 +108,43 @@ public function applyForJob($userId, $positionId)
         $stmt->bindValue(':start', $start, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         
+        if ($companyId) {
+            $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT);
+        }
+        
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-
     public function getOwnerApplications($ownerId)
     {
-        $sql = "SELECT 
-                    a.id as app_id,
-                    a.applied_on,
-                    a.status_id,
-                    u.username as applicant_name,
-                    t.name as job_title,
-                    c.name as company_name,
-                    s.name as status_name
+        $sql = "SELECT a.id as app_id, a.applied_on, a.status_id, u.username as applicant_name, t.name as job_title, c.name as company_name, s.name as status_name
                 FROM application a
                 INNER JOIN positions p ON a.position_id = p.id
                 INNER JOIN company c ON p.company_id = c.id
                 INNER JOIN users u ON a.user_id = u.id
                 INNER JOIN title t ON p.title_id = t.id
                 INNER JOIN application_status s ON a.status_id = s.id
-                WHERE c.owner_id = :owner_id
-                ORDER BY a.applied_on DESC";
-
+                WHERE c.owner_id = :owner_id ORDER BY a.applied_on DESC";
         $stmt = $this->dbConn->prepare($sql);
         $stmt->execute([':owner_id' => $ownerId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllStatuses()
-    {
+    public function getAllStatuses() {
         $sql = "SELECT * FROM application_status ORDER BY id ASC";
         $stmt = $this->dbConn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateStatus($appId, $newStatusId)
-    {
+    public function updateStatus($appId, $newStatusId) {
         $sql = "UPDATE application SET status_id = :status_id WHERE id = :id";
         try {
             $stmt = $this->dbConn->prepare($sql);
-            $stmt->execute([
-                ':status_id' => $newStatusId,
-                ':id' => $appId
-            ]);
+            $stmt->execute([':status_id' => $newStatusId, ':id' => $appId]);
             return true;
-        } catch (PDOException $e) {
-            return false;
-        }
+        } catch (PDOException $e) { return false; }
     }
 }
 ?>

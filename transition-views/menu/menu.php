@@ -24,10 +24,18 @@ if (session_status() === PHP_SESSION_NONE) {
                 <a href="/job_board_project/job-page/controller/job-browse-controller.php">Browse Jobs</a>
                 
                 <a href="/job_board_project/job-page/controller/post_job-controller.php">Post a Job</a>
+                <a href="/job_board_project/job-page/controller/position-manager-controller.php">Manage Positions</a>
+                
+                <a href="/job_board_project/application-page/controller/manage-applications-controller.php">Screen Applications</a>
                 
                 <a href="/job_board_project/application-page/controller/my-applications-controller.php">My Applications</a>
             </div>
         </div>
+
+        <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1): ?>
+            <a href="/job_board_project/admin/controller/admin-controller.php" style="font-weight: bold; color: #FFD700;">Admin Panel</a>
+        <?php endif; ?>
+
     </div>
 
     <div class="user-menu">

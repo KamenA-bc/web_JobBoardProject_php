@@ -13,11 +13,11 @@
 <div class="container">
     <div class="header">
         <h2>Applicant Screening</h2>
-        <p>Review and update status for candidates applying to your companies.</p>
+        <p class="description">Review candidates and update their application status.</p>
     </div>
 
     <?php if (isset($_GET['msg'])): ?>
-        <div style="background:#e8f5e9; color:#2e7d32; padding:10px; margin-bottom:15px; border-radius:4px; text-align:center;">
+        <div class="msg-box msg-success">
             <?php echo htmlspecialchars($_GET['msg']); ?>
         </div>
     <?php endif; ?>
@@ -27,26 +27,28 @@
             <table class="app-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Candidate</th>
-                        <th>Job Position</th>
-                        <th>Current Status</th>
-                        <th>Update Status</th>
+                        <th width="15%">Date</th>
+                        <th width="20%">Candidate</th>
+                        <th width="25%">Position</th>
+                        <th width="15%">Current Status</th>
+                        <th width="25%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($applications as $app): 
-                        if ($app['status_id'] == 5 || $app['status_id'] == 6) {
-            continue; 
-        }?>
-                    
+                        // Filter out if needed, though usually better done in Model/SQL
+                        if ($app['status_id'] == 5 || $app['status_id'] == 6) { continue; }
+                    ?>
                         <tr>
-                            <td><?php echo date('M d', strtotime($app['applied_on'])); ?></td>
-                            <td style="font-weight:bold;"><?php echo htmlspecialchars($app['applicant_name']); ?></td>
                             <td>
-                                <?php echo htmlspecialchars($app['job_title']); ?>
-                                <br>
-                                <small style="color:#666;"><?php echo htmlspecialchars($app['company_name']); ?></small>
+                                <?php echo date('M d, Y', strtotime($app['applied_on'])); ?>
+                            </td>
+                            <td>
+                                <span class="candidate-name"><?php echo htmlspecialchars($app['applicant_name']); ?></span>
+                            </td>
+                            <td>
+                                <span class="job-title"><?php echo htmlspecialchars($app['job_title']); ?></span>
+                                <span class="company-sub"><?php echo htmlspecialchars($app['company_name']); ?></span>
                             </td>
                             <td>
                                 <span class="status-badge status-<?php echo strtolower($app['status_name']); ?>">
@@ -66,7 +68,7 @@
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <button type="submit" name="update_status" class="update-btn">Save</button>
+                                    <button type="submit" name="update_status" class="update-btn">Update</button>
                                 </form>
                             </td>
                         </tr>
@@ -76,7 +78,8 @@
         </div>
     <?php else: ?>
         <div class="empty-state">
-            <h3>No applications received yet.</h3>
+            <h3>No active applications found.</h3>
+            <p>Once candidates apply to your job postings, they will appear here.</p>
         </div>
     <?php endif; ?>
 </div>

@@ -17,6 +17,25 @@
         <p>Track the status of your current job applications.</p>
     </div>
 
+    <div class="filter-section">
+        <strong>Filter by Company:</strong>
+        <form method="GET" class="filter-form">
+            <select name="company" class="filter-select" onchange="this.form.submit()">
+                <option value="">All Companies</option>
+                <?php foreach ($companies as $comp): ?>
+                    <option value="<?php echo $comp['id']; ?>" 
+                        <?php echo (isset($selectedCompany) && $selectedCompany == $comp['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($comp['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <?php if(isset($selectedCompany) && $selectedCompany != ''): ?>
+                <a href="my-applications-controller.php" class="btn-reset">✖ Clear Filter</a>
+            <?php endif; ?>
+        </form>
+    </div>
+
     <?php if (!empty($myApplications)): ?>
         <div class="table-responsive">
             <table class="app-table">
@@ -50,12 +69,19 @@
                 </tbody>
             </table>
         </div>
-             <?php include '../../transition-views/pagination/pagination.php'; ?>
+        
+        <?php include '../../transition-views/pagination/pagination.php'; ?>
+        
     <?php else: ?>
     
         <div class="empty-state">
-            <h3>You haven't applied to any jobs yet.</h3>
-            <a href="../../job-page/controller/job-browse-controller.php" class="cta-btn">Browse Jobs</a>
+            <?php if(isset($selectedCompany) && $selectedCompany != ''): ?>
+                <h3>No applications found for this company.</h3>
+                <a href="my-applications-controller.php" class="view-btn">Clear Filter</a>
+            <?php else: ?>
+                <h3>You haven't applied to any jobs yet.</h3>
+                <a href="../../job-page/controller/job-browse-controller.php" class="cta-btn">Browse Jobs</a>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>

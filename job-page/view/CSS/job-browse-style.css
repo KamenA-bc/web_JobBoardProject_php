@@ -1,42 +1,146 @@
-body {
-    background-color: #f4f6f9;
+/* --- Basic Reset & Typography --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
+body {
+    background-color: #F4F6F8;
+    color: #333;
+    line-height: 1.6;
 }
 
+/* --- Layout --- */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+/* --- Header Section --- */
 .header-section {
+    margin-top: 40px;
+    margin-bottom: 30px;
     text-align: center;
-    margin-bottom: 40px;
 }
 
 .header-section h2 {
+    font-size: 2rem;
     color: #1565C0;
-    font-size: 28px;
     margin-bottom: 10px;
 }
 
 .header-section p {
     color: #666;
-    font-size: 16px;
+    font-size: 1.1rem;
 }
 
-/* Job Card Styling */
+/* --- Filter Section (UPDATED) --- */
+.filter-section {
+    background: white;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+    border-radius: 10px; /* Softer corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Floating card effect */
+    display: flex;
+    align-items: center; /* Vertically centers the text and input */
+    gap: 20px;
+    border: 1px solid #edf2f7;
+}
+
+/* Label styling */
+.filter-section strong {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+/* The Dropdown styling */
+.filter-select {
+    padding: 10px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #444;
+    min-width: 250px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none; /* Removes default ugly browser arrow */
+    
+    /* Custom arrow icon using SVG background */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231565C0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+}
+
+.filter-select:hover {
+    border-color: #b0bec5;
+}
+
+.filter-select:focus {
+    border-color: #1565C0;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1); /* Blue glow */
+}
+
+/* Filter Button (fallback) */
+.btn-filter {
+    padding: 10px 20px;
+    background-color: #1565C0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-filter:hover {
+    background-color: #0D47A1;
+}
+
+/* Reset Link */
+.btn-reset {
+    text-decoration: none;
+    color: #d32f2f; /* Red color to indicate removing a filter */
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: auto;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #ffebee;
+    transition: background 0.2s;
+}
+
+.btn-reset:hover {
+    background-color: #ffcdd2;
+}
+
+/* --- Job List & Cards --- */
 .job-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .job-card {
     background: white;
-    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,23 +149,22 @@ body {
 }
 
 .job-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-left: 5px solid #1565C0;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-left-color: #1565C0;
 }
 
 .job-info h3 {
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    color: #333;
+    margin-bottom: 5px;
+    color: #222;
+    font-size: 1.25rem;
 }
 
 .company-name {
-    font-size: 14px;
-    color: #666;
-    font-weight: 600;
     display: block;
+    color: #555;
     margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .job-tags {
@@ -70,41 +173,56 @@ body {
 }
 
 .tag {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 5px 12px;
+    border-radius: 20px; /* Pill shape */
+    font-weight: 600;
 }
 
 .tag.seniority {
-    background-color: #e3f2fd;
+    background-color: #E3F2FD;
     color: #1565C0;
 }
 
 .tag.location {
-    background-color: #f5f5f5;
-    color: #555;
+    background-color: #F5F5F5;
+    color: #616161;
 }
 
-/* Action Button */
 .apply-btn {
-    background-color: #1565C0;
+    background-color: #1976D2;
     color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
+    padding: 10px 24px;
+    border-radius: 6px;
     font-weight: bold;
-    font-size: 14px;
-    transition: background 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
 }
 
 .apply-btn:hover {
-    background-color: #0D47A1;
+    background-color: #115293;
 }
 
+/* --- Utilities --- */
 .no-jobs {
     text-align: center;
     padding: 50px;
-    color: #888;
-    font-size: 18px;
+    color: #777;
+    background: white;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.alert-success {
+    text-align: center;
+    padding: 12px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #c8e6c9;
 }

@@ -29,12 +29,16 @@ class MyApplicationsController
     
     private function listApplications()
     {
+        $selectedCompany = isset($_GET['company']) && $_GET['company'] !== '' ? $_GET['company'] : null;
+
         $page = isset($_GET['page-nr']) ? (int)$_GET['page-nr'] : 1;
         $start = ($page - 1) * self::ROWS_PER_PAGE;
 
-        $myApplications = $this->appModel->getUserApplications($_SESSION['user_id'], $start, self::ROWS_PER_PAGE);
+        $myApplications = $this->appModel->getUserApplications($_SESSION['user_id'], $start, self::ROWS_PER_PAGE, $selectedCompany);
+        $totalRows = $this->appModel->getApplicationCount($_SESSION['user_id'], $selectedCompany);
+        
+        $companies = $this->appModel->getAppliedCompanies($_SESSION['user_id']);
 
-        $totalRows = $this->appModel->getApplicationCount($_SESSION['user_id']);
         $pages = ceil($totalRows / self::ROWS_PER_PAGE);
 
         include '../view/my-applications-view.php';
