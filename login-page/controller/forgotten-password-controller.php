@@ -11,6 +11,11 @@ class ForgottenPassController
     public function __construct($dbConn) 
     {
         $this->loginModel = new LoginModel($dbConn);
+        
+                        if (empty($_SESSION['csrf_token'])) 
+        {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
     }
     
     public function resetPassword()
@@ -20,6 +25,13 @@ class ForgottenPassController
         
         if(isset($_POST["submit"]))
         {
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
+            {
+                $errorMessage = "Invalid CSRF! Please reload page.";
+                include LOGING_VIEW_PATH;
+                exit();
+            }
+            
             $username = $_POST["username_or_email"];
             $hashedPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
 

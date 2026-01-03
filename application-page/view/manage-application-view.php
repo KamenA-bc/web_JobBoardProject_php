@@ -36,7 +36,6 @@
                 </thead>
                 <tbody>
                     <?php foreach ($applications as $app): 
-                        // Filter out if needed, though usually better done in Model/SQL
                         if ($app['status_id'] == 5 || $app['status_id'] == 6) { continue; }
                     ?>
                         <tr>
@@ -57,6 +56,7 @@
                             </td>
                             <td>
                                 <form method="POST" class="status-form">
+                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                     <input type="hidden" name="app_id" value="<?php echo $app['app_id']; ?>">
                                     
                                     <select name="status_id">

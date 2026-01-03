@@ -37,6 +37,24 @@
             <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/company-register-view.php</file>
             <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/CSS/company-register-style.css</file>
             <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/company-edit-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/controller/position-manager-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/view/position-manager-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/view/CSS/position-manager-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/transition-views/menu/menu.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/view/CSS/job-browse-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/application-page/view/CSS/my-application-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/controller/post_job-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/admin/model/admin-model.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/admin/controller/admin-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/admin/view/dashboard-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/admin/view/CSS/admin-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/main-page/CSS/main-style.css</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/login-page/view/login-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/login-page/controller/forgotten-password-controller.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-page/view/register-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/login-page/view/forgotten-password-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/register-company-page/view/company-update-view.php</file>
+            <file>file:/C:/school/xampp/htdocs/job_board_project/job-page/view/post_job-view.php</file>
         </group>
     </open-files>
 </project-private>

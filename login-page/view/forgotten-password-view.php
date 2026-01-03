@@ -14,7 +14,7 @@
         </div>
 
         <form method="post" action="../controller/forgotten-password-controller.php">
-            
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="username">Username or Email</label>
             <input type="text" id="username" name="username_or_email" placeholder="Enter your username or email" required>
 

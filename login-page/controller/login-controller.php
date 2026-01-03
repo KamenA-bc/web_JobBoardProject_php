@@ -14,11 +14,22 @@ class LoginController
     public function __construct($dbConn) 
     {
         $this->loginModel = new LoginModel($dbConn);
+        
+                if (empty($_SESSION['csrf_token'])) 
+        {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
     }
     public function handleLogin()
     {
         if(isset($_POST["submit"]))
         {
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
+            {
+                $errorMessage = "Invalid CSRF! Please reload page.";
+                include LOGING_VIEW_PATH;
+                exit();
+            }
             $username = $_POST["username"];
             $password = $_POST["password"];
 

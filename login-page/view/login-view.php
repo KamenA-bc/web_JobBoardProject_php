@@ -14,6 +14,7 @@
         <div class="right-side">
             <h1>Log In</h1>
             <form method="post" action="../controller/login-controller.php">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Enter username/email" required>
 

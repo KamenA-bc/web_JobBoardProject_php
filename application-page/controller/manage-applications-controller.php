@@ -13,6 +13,11 @@ class ManageApplicationsController
     public function __construct($dbConn)
     {
         $this->appModel = new ApplicationModel($dbConn);
+        
+        if (empty($_SESSION['csrf_token'])) 
+        {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
     }
 
     public function handleRequest()
@@ -32,6 +37,12 @@ class ManageApplicationsController
 
     private function processUpdate()
     {
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
+            {
+                $errorMessage = "Invalid CSRF! Please reload page.";
+                include '../view/manage-application-view.php';
+                exit();
+            }
         $appId = $_POST['app_id'];
         $newStatusId = $_POST['status_id'];
 
