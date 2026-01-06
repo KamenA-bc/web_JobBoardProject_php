@@ -39,7 +39,7 @@ class DashboardController
 
 
         if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 1) {
-             header("Location: ../../transition-views/unauthorized.php");
+             header("Location: ../../transition-views/unauthorized-page.php");
              exit();
         }
     }

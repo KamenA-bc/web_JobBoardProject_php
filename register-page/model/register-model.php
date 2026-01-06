@@ -1,6 +1,8 @@
 <?php
 include '../../base-model.php';
 
+include_once 'validator.php'; 
+
 define('ROLE_ADMIN', 1);
 define('ROLE_USER', 2);
 
@@ -12,21 +14,10 @@ class RegisterModel extends BaseModel
         parent::__construct($dbConn);
     }
        
-    private function validateEmail($email)
-    {
-        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-    }
-
-    private function passwordMatch($password, $repeatPassword)
-    {
-        return $password === $repeatPassword;
-    }
-
 
     public function registerUser($username, $firstName, $lastName, $email, $password, $repeatPassword)
     {
-
-        if (!$this->validateEmail($email)) 
+        if (!Validator::isValidEmail($email)) 
         {
             return [
                 'success' => false,
@@ -34,8 +25,7 @@ class RegisterModel extends BaseModel
             ];
         }
 
-
-        if (!$this->passwordMatch($password, $repeatPassword)) 
+        if (!Validator::doPasswordsMatch($password, $repeatPassword)) 
         {
             return [
                 'success' => false,
@@ -64,7 +54,7 @@ class RegisterModel extends BaseModel
             'last_name' => $lastName,
             'email' => $email,
             'password' => $hashedPassword,
-            'role_id' => ROLE_USER // User role_id
+            'role_id' => ROLE_USER 
         ];
 
         try 
@@ -98,5 +88,4 @@ class RegisterModel extends BaseModel
         }
     }
 }
-
-
+?>
