@@ -1,4 +1,5 @@
-<?php include '../../transition-views/menu/menu.php'; ?>
+<?php include '../../transition-views/menu/menu.php';
+DEFINE('INTERVIEW_STATUS', 3);?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,7 @@
                     </option>
                 <?php endforeach; ?>
             </select>
+            
             <?php if(isset($selectedCompany) && $selectedCompany != ''): ?>
                 <a href="my-applications-controller.php" class="btn-reset">✖ Clear Filter</a>
             <?php endif; ?>
@@ -43,7 +45,8 @@
                         <th>Applied On</th>
                         <th>Job Title</th>
                         <th>Company</th>
-                        <th>Resume</th> <th>Status</th>
+                        <th>Location</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -53,13 +56,7 @@
                             <td><?php echo date('M d, Y', strtotime($app['applied_on'])); ?></td>
                             <td class="job-title"><?php echo htmlspecialchars($app['job_title']); ?></td>
                             <td><?php echo htmlspecialchars($app['company_name']); ?></td>
-                            <td>
-                                <?php if (!empty($app['file_path'])): ?>
-                                    <a href="../../<?php echo htmlspecialchars($app['file_path']); ?>" target="_blank" style="color:#1565C0;">📄 Download</a>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>
+                            <td><?php echo htmlspecialchars($app['location']); ?></td>
                             <td>
                                 <span class="status-badge status-<?php echo strtolower($app['status_name']); ?>">
                                     <?php echo htmlspecialchars($app['status_name']); ?>
@@ -67,10 +64,10 @@
                             </td>
                             <td>
                                 <?php 
-                                    if ($app['status_id'] == 3) {
-                                        $link = "../../transition-views/interview-form.php?app_id=" . $app['id'];
+                                    if ($app['status_id'] == INTERVIEW_STATUS) {
+                                        $link = "../../transition-views/interview-questions/interview-form.php?app_id=" . $app['id'];
                                     } else {
-                                        $link = "../../transition-views/no-details.php";
+                                        $link = "../../transition-views/no-details/no-details.php";
                                     }
                                 ?>
                                 <a href="<?php echo $link; ?>" class="view-btn">View Details</a>
@@ -84,8 +81,15 @@
         <?php include '../../transition-views/pagination/pagination.php'; ?>
         
     <?php else: ?>
+    
         <div class="empty-state">
-            <h3>You haven't applied to any jobs yet.</h3>
+            <?php if(isset($selectedCompany) && $selectedCompany != ''): ?>
+                <h3>No applications found for this company.</h3>
+                <a href="my-applications-controller.php" class="view-btn">Clear Filter</a>
+            <?php else: ?>
+                <h3>You haven't applied to any jobs yet.</h3>
+                <a href="../../job-page/controller/job-browse-controller.php" class="cta-btn">Browse Jobs</a>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>
