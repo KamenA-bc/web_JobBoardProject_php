@@ -1,4 +1,5 @@
-<?php include '../../transition-views/menu/menu.php'; ?>
+<?php include '../../transition-views/menu/menu.php';
+DEFINE('INTERVIEW_STATUS', 3);?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +63,14 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="#" class="view-btn">View Details</a>
+                                <?php 
+                                    if ($app['status_id'] == INTERVIEW_STATUS) {
+                                        $link = "../../transition-views/interview-questions/interview-form.php?app_id=" . $app['id'];
+                                    } else {
+                                        $link = "../../transition-views/no-details/no-details.php";
+                                    }
+                                ?>
+                                <a href="<?php echo $link; ?>" class="view-btn">View Details</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

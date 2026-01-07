@@ -3,53 +3,45 @@ include_once '../../base-model.php';
 
 class ApplicationModel extends BaseModel
 {
+    // Definirame konstanti za razlichnite etapi
+    const STATUS_APPLIED = 1;
+    const STATUS_SCREENING = 2;
+    const STATUS_INTERVIEW = 3;
+    const STATUS_OFFER = 4;
+    const STATUS_HIRED = 5;
+    const STATUS_REJECTED = 6;
+
     public function __construct(PDO $dbConn)
     {
         parent::__construct($dbConn);
         $this->table = 'application';
     }
 
-public function applyForJob($userId, $positionId)
+
+    public function applyForJob($userId, $positionId)
     {
         $data = [
             'user_id'     => $userId,
             'position_id' => $positionId,
             'applied_on'  => date('Y-m-d'), 
-            'status_id'   => 1 // Default status = Applied
+            'status_id'   => self::STATUS_APPLIED 
         ];
 
         $insertId = $this->insertRow($data);
-
-        if ($insertId) {
-            return ['success' => true];
-        } else {
-            return ['success' => false, 'error' => "Failed to submit application."];
-        }
+        return $insertId ? ['success' => true] : ['success' => false, 'error' => "Failed."];
     }
     
     public function checkIfApplied($userId, $positionId)
     {
-        $sql = "SELECT COUNT(*) FROM application 
-                WHERE user_id = :user_id AND position_id = :position_id";
-        
+        $sql = "SELECT COUNT(*) FROM application WHERE user_id = :user_id AND position_id = :position_id";
         $stmt = $this->dbConn->prepare($sql);
-        $stmt->execute([
-            ':user_id' => $userId,
-            ':position_id' => $positionId
-        ]);
-        
+        $stmt->execute([':user_id' => $userId, ':position_id' => $positionId]);
         return $stmt->fetchColumn() > 0;
     }
 
-
     public function getAppliedCompanies($userId)
     {
-        $sql = "SELECT DISTINCT c.id, c.name 
-                FROM company c
-                JOIN positions p ON c.id = p.company_id
-                JOIN application a ON p.id = a.position_id
-                WHERE a.user_id = :user_id
-                ORDER BY c.name ASC";
+        $sql = "SELECT DISTINCT c.id, c.name FROM company c JOIN positions p ON c.id = p.company_id JOIN application a ON p.id = a.position_id WHERE a.user_id = :user_id ORDER BY c.name ASC";
         $stmt = $this->dbConn->prepare($sql);
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,22 +49,11 @@ public function applyForJob($userId, $positionId)
 
     public function getApplicationCount($userId, $companyId = null)
     {
-        $sql = "SELECT COUNT(*) as total 
-                FROM application a
-                INNER JOIN positions p ON a.position_id = p.id
-                WHERE a.user_id = :user_id";
-        
-        if ($companyId) {
-            $sql .= " AND p.company_id = :company_id";
-        }
-
+        $sql = "SELECT COUNT(*) as total FROM application a INNER JOIN positions p ON a.position_id = p.id WHERE a.user_id = :user_id";
+        if ($companyId) { $sql .= " AND p.company_id = :company_id"; }
         $stmt = $this->dbConn->prepare($sql);
         $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
-        
-        if ($companyId) {
-            $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT);
-        }
-
+        if ($companyId) { $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT); }
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
@@ -80,38 +61,14 @@ public function applyForJob($userId, $positionId)
 
     public function getUserApplications($userId, $start, $limit, $companyId = null)
     {
-        $sql = "SELECT 
-                    a.id,
-                    a.applied_on,
-                    p.title_id, 
-                    t.name as job_title,
-                    c.name as company_name,
-                    p.location,
-                    s.name as status_name,
-                    s.id as status_id
-                FROM application a
-                INNER JOIN positions p ON a.position_id = p.id
-                INNER JOIN title t ON p.title_id = t.id
-                INNER JOIN company c ON p.company_id = c.id
-                INNER JOIN application_status s ON a.status_id = s.id 
-                WHERE a.user_id = :user_id";
-        
-        if ($companyId) {
-            $sql .= " AND p.company_id = :company_id";
-        }
-
+        $sql = "SELECT a.id, a.applied_on, p.title_id, t.name as job_title, c.name as company_name, p.location, s.name as status_name, s.id as status_id FROM application a INNER JOIN positions p ON a.position_id = p.id INNER JOIN title t ON p.title_id = t.id INNER JOIN company c ON p.company_id = c.id INNER JOIN application_status s ON a.status_id = s.id WHERE a.user_id = :user_id";
+        if ($companyId) { $sql .= " AND p.company_id = :company_id"; }
         $sql .= " ORDER BY a.applied_on DESC LIMIT :start, :limit";
-
         $stmt = $this->dbConn->prepare($sql);
-        
         $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
         $stmt->bindValue(':start', $start, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        
-        if ($companyId) {
-            $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT);
-        }
-        
+        if ($companyId) { $stmt->bindValue(':company_id', $companyId, PDO::PARAM_INT); }
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -138,7 +95,41 @@ public function applyForJob($userId, $positionId)
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateStatus($appId, $newStatusId) {
+
+    private function isStatusChangeValid($currentStatusId, $newStatusId)
+    {
+        if ($currentStatusId == $newStatusId) return true;
+
+
+        if ($newStatusId == self::STATUS_REJECTED) return true;
+
+
+        if ($currentStatusId == self::STATUS_HIRED || $currentStatusId == self::STATUS_REJECTED) {
+            return false; 
+        }
+
+
+        if ($newStatusId > $currentStatusId) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateStatus($appId, $newStatusId) 
+    {
+
+        $sqlGet = "SELECT status_id FROM application WHERE id = :id";
+        $stmtGet = $this->dbConn->prepare($sqlGet);
+        $stmtGet->execute([':id' => $appId]);
+        $currentStatusId = $stmtGet->fetchColumn();
+
+        if (!$currentStatusId) return false;
+
+        if (!$this->isStatusChangeValid($currentStatusId, $newStatusId)) {
+            return false; 
+        }
+
         $sql = "UPDATE application SET status_id = :status_id WHERE id = :id";
         try {
             $stmt = $this->dbConn->prepare($sql);

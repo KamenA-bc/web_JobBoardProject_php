@@ -14,8 +14,7 @@ class ManageApplicationsController
     {
         $this->appModel = new ApplicationModel($dbConn);
         
-        if (empty($_SESSION['csrf_token'])) 
-        {
+        if (empty($_SESSION['csrf_token'])) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         }
     }
@@ -27,46 +26,41 @@ class ManageApplicationsController
             exit();
         }
 
-        
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $this->processUpdate();
+        } else {
+            $this->showDashboard();
         }
-
-        $this->showDashboard();
     }
 
     private function processUpdate()
     {
-            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) 
-            {
-                $errorMessage = "Invalid CSRF! Please reload page.";
-                include '../view/manage-application-view.php';
-                exit();
-            }
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $msg = "Invalid CSRF token.";
+            header("Location: " . $_SERVER['PHP_SELF'] . "?msg=" . urlencode($msg) . "&type=error");
+            exit();
+        }
+
         $appId = $_POST['app_id'];
         $newStatusId = $_POST['status_id'];
 
         if ($this->appModel->updateStatus($appId, $newStatusId)) {
             $msg = "Status updated successfully.";
+            $type = "success";
         } else {
-            $msg = "Error updating status.";
+            $msg = "Update failed: You cannot move an application backwards in the process.";
+            $type = "error";
         }
 
-       
-        header("Location: " . $_SERVER['PHP_SELF'] . "?msg=" . urlencode($msg));
+        header("Location: " . $_SERVER['PHP_SELF'] . "?msg=" . urlencode($msg) . "&type=" . $type);
         exit();
     }
 
     private function showDashboard()
     {
         $ownerId = $_SESSION['user_id'];
-        
-        
         $applications = $this->appModel->getOwnerApplications($ownerId);
-        
-        
         $statuses = $this->appModel->getAllStatuses();
-
         include '../view/manage-application-view.php';
     }
 }

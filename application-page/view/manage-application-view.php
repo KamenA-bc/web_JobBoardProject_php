@@ -17,7 +17,8 @@
     </div>
 
     <?php if (isset($_GET['msg'])): ?>
-        <div class="msg-box msg-success">
+        <?php $msgType = isset($_GET['type']) && $_GET['type'] == 'error' ? 'alert-error' : 'msg-success'; ?>
+        <div class="msg-box <?php echo $msgType; ?>">
             <?php echo htmlspecialchars($_GET['msg']); ?>
         </div>
     <?php endif; ?>
@@ -60,9 +61,14 @@
                                     <input type="hidden" name="app_id" value="<?php echo $app['app_id']; ?>">
                                     
                                     <select name="status_id">
-                                        <?php foreach ($statuses as $status): ?>
+                                        <?php foreach ($statuses as $status): 
+                                            $currentId = $app['status_id'];
+                                            $newId = $status['id'];
+                                            $isBackward = ($newId != 6 && $newId < $currentId);
+                                        ?>
                                             <option value="<?php echo $status['id']; ?>" 
-                                                <?php echo ($status['id'] == $app['status_id']) ? 'selected' : ''; ?>>
+                                                <?php echo ($newId == $currentId) ? 'selected' : ''; ?>
+                                                <?php echo ($isBackward) ? 'disabled style="color:#ccc;"' : ''; ?>>
                                                 <?php echo ucfirst($status['name']); ?>
                                             </option>
                                         <?php endforeach; ?>
