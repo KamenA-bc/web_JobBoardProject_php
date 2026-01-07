@@ -6,6 +6,7 @@
     <title>Company Register</title>
     <link rel="stylesheet" href="../view/CSS/company-register-style.css">
     <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
+    <link rel="stylesheet" href="../../transition-views/pagination/pagination-style.css">
 </head>
 <body>
 
@@ -74,6 +75,9 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <?php include '../../transition-views/pagination/pagination.php'; ?>
+
     <?php else: ?>
         <p class="empty-state">You have not registered any companies yet.</p>
     <?php endif; ?>

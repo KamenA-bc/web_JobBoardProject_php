@@ -7,6 +7,10 @@
     <title>Manage Applications</title>
     <link rel="stylesheet" href="../view/CSS/manage-application-style.css">
     <link rel="stylesheet" href="../../transition-views/menu/menu-style.css">
+    <style>
+        .btn-doc { color: #555; text-decoration: none; border: 1px solid #ccc; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; background: #fff; }
+        .btn-doc:hover { background: #f0f0f0; border-color: #999; }
+    </style>
 </head>
 <body>
 
@@ -28,10 +32,10 @@
             <table class="app-table">
                 <thead>
                     <tr>
-                        <th width="15%">Date</th>
-                        <th width="20%">Candidate</th>
-                        <th width="25%">Position</th>
-                        <th width="15%">Current Status</th>
+                        <th width="12%">Date</th>
+                        <th width="18%">Candidate</th>
+                        <th width="20%">Position</th>
+                        <th width="10%">Resume</th> <th width="15%">Current Status</th>
                         <th width="25%">Action</th>
                     </tr>
                 </thead>
@@ -40,15 +44,18 @@
                         if ($app['status_id'] == 5 || $app['status_id'] == 6) { continue; }
                     ?>
                         <tr>
-                            <td>
-                                <?php echo date('M d, Y', strtotime($app['applied_on'])); ?>
-                            </td>
-                            <td>
-                                <span class="candidate-name"><?php echo htmlspecialchars($app['applicant_name']); ?></span>
-                            </td>
+                            <td><?php echo date('M d, Y', strtotime($app['applied_on'])); ?></td>
+                            <td><span class="candidate-name"><?php echo htmlspecialchars($app['applicant_name']); ?></span></td>
                             <td>
                                 <span class="job-title"><?php echo htmlspecialchars($app['job_title']); ?></span>
                                 <span class="company-sub"><?php echo htmlspecialchars($app['company_name']); ?></span>
+                            </td>
+                            <td>
+                                <?php if (!empty($app['file_path'])): ?>
+                                    <a href="../../<?php echo htmlspecialchars($app['file_path']); ?>" target="_blank" class="btn-doc">📄 View CV</a>
+                                <?php else: ?>
+                                    <span style="color:#aaa; font-size:0.9rem;">No File</span>
+                                <?php endif; ?>
                             </td>
                             <td>
                                 <span class="status-badge status-<?php echo strtolower($app['status_name']); ?>">
@@ -73,7 +80,6 @@
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-
                                     <button type="submit" name="update_status" class="update-btn">Update</button>
                                 </form>
                             </td>
@@ -85,7 +91,6 @@
     <?php else: ?>
         <div class="empty-state">
             <h3>No active applications found.</h3>
-            <p>Once candidates apply to your job postings, they will appear here.</p>
         </div>
     <?php endif; ?>
 </div>

@@ -1,12 +1,12 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE) 
+{
     session_start();
 }
 
 include "../../config.php";
 include "../model/job-model.php";
-// Ensure this path matches your folder structure exactly
 include "../../register-company-page/model/company-model.php";
 
 class JobPostController

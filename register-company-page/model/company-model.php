@@ -13,6 +13,17 @@ class CompanyModel extends BaseModel
     {
         return filter_var($companyURL, FILTER_VALIDATE_URL) !== false;
     }
+    
+    public function getCompanyCountByOwner($ownerId)
+    {
+        $sql = "SELECT COUNT(*) FROM company WHERE owner_id = :owner_id";
+        $stmt = $this->dbConn->prepare($sql);
+        $stmt->bindValue(':owner_id', $ownerId, PDO::PARAM_INT);
+        $stmt->execute();
+        
+
+        return $stmt->fetchColumn(); 
+    }
 
 
     private function hasActivePositions($companyId)
@@ -129,5 +140,16 @@ class CompanyModel extends BaseModel
             'success' => false,
             'error' => "Database error: Could not delete."
         ];
+    }
+    
+    public function getCompaniesByOwnerPaginated($ownerId, $start, $limit)
+    {
+        $sql = "SELECT * FROM company WHERE owner_id = :owner_id LIMIT :start, :limit";
+        $stmt = $this->dbConn->prepare($sql);
+        $stmt->bindValue(':owner_id', $ownerId, PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
